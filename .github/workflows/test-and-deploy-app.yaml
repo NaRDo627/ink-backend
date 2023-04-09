@@ -131,7 +131,7 @@ jobs:
 
       - name: Deploy to Server
         env:
-          DOCKER_COMPOSE_FILE: docker-compose-dev.yml
+          DOCKER_COMPOSE_FILE: docker-compose.yml
         run: |
           # Make a directory
           ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "mkdir -p ${{ vars.PATH_TO_REMOTE }}"
