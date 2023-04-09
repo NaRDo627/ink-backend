@@ -1,4 +1,4 @@
-name: Test and Deploy with Noti
+name: Test and Deploy with Noti - Dev
 
 on:
   workflow_dispatch:
@@ -9,6 +9,9 @@ on:
         default: 'warning'
       tags:
         description: 'Test scenario tags'
+  push:
+    branches:
+      - main
 
 env:
   JAR_NAME: ink-api-0.0.1-SNAPSHOT.jar
@@ -38,6 +41,12 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      - name: application-dev.yml 디코딩
+        uses: timheuer/base64-to-file@v1.1
+        with:
+          fileName: 'application-dev.yml'
+          fileDir: './ink-core/src/main/resources/'
+          encodedString: ${{ secrets.APPLICATION_YML_DEV_BASE64 }}
       - name: Gradle 테스트 및 실행파일 생성
         run: ./gradlew :ink-api:build :ink-api:test :ink-api:bootJar -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Seoul --info
 
@@ -46,6 +55,7 @@ jobs:
         with:
           name: ink-app-artifact
           path: ${{ github.workspace }}/ink-api/build/libs/${{ env.JAR_NAME }}
+          retention-days: 1
   deployment-api:
     name: Setup, Build, Publish, and Deploy
     needs: test
@@ -96,7 +106,7 @@ jobs:
         with:
           context: ./ink-api/
           push: true
-          tags: docker.io/${{ secrets.DOCKER_USERNAME }}/${{ env.DEPLOYMENT_NAME }}:${{ steps.get-tag.outputs.tag }}
+          tags: docker.io/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE }}:${{ steps.get-tag.outputs.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
@@ -105,64 +115,35 @@ jobs:
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
-      - name: 배포파일 업데이트
-        run: TAG=${{ steps.get-tag.outputs.tag }} && sed -i 's|<IMAGE>|docker.io/${{ secrets.DOCKER_USERNAME }}/${{ env.DEPLOYMENT_NAME }}:'${TAG}'|' $GITHUB_WORKSPACE/deployment/deployment.yml
-
       - name: 환경변수 치환 후 최종 배포 파일 생성
         uses: danielr1996/envsubst-action@1.0.0
         env:
-          SPRING_DATASOURCE_DRIVER_CLASS_NAME: ${{ secrets.SPRING_DATASOURCE_DRIVER_CLASS_NAME }}
-          SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
-          SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
-          SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
-          FIREBASE_SERVICE_KEY: ${{ secrets.FIREBASE_SERVICE_KEY }}
-          SPRING_JWT_SECRET: ${{ secrets.SPRING_JWT_SECRET }}
-          CLOUD_AWS_CREDENTIALS_ACCESS_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_ACCESS_KEY }}
-          CLOUD_AWS_CREDENTIALS_SECRET_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_SECRET_KEY }}
-          CLOUD_AWS_S3_BUCKET: ${{ secrets.CLOUD_AWS_S3_BUCKET }}
+          VERSION: ${{ steps.get-tag.outputs.tag }}
+          IMAGE: ink
         with:
-          input: deployment/deployment.yml
-          output: deploy.yml
+          input: deployment/docker-compose-dev.yml
+          output: docker-compose.yml
 
-      - name: 클러스터에 배포
-        uses: NaLDo627/kubectl@master
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      - name: Configure SSH key
+        uses: webfactory/ssh-agent@v0.5.0
         with:
-          args: apply -f deploy.yml
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: 배포 확인
-        uses: NaLDo627/kubectl@master
+      - name: Deploy to Server
         env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-        with:
-          args: '"rollout status deployment/${{ env.DEPLOYMENT_NAME }}"'
-  notification-success:
-    name: 슬랙에 성공 알림
-    if: success()
-    needs: [ test, deployment-api ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: 슬랙 성공 알림
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
-        with:
-          channel: 1-서버-알림
-          status: SUCCESS
-          color: good
+          DOCKER_COMPOSE_FILE: docker-compose-dev.yml
+        run: |
+          # Make a directory
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "mkdir -p ${{ vars.PATH_TO_REMOTE }}"
+          
+          # Copy docker-compose.yml file to the remote server
+          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P ${{ secrets.SSH_PORT }} $DOCKER_COMPOSE_FILE ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ vars.PATH_TO_REMOTE }}/docker-compose.yml
 
-  notification-failure:
-    name: 슬랙에 실패 알림
-    if: failure()
-    needs: [ test, deployment-api ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: 슬랙 실패 알림
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1
+          # SSH to the remote server and deploy the Docker container using Docker Compose
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd ${{ vars.PATH_TO_REMOTE }} && docker-compose pull ink_backend_app && docker-compose down && docker-compose up -d"
+
+      - uses: sarisia/actions-status-discord@v1
+        if: always()
         with:
-          channel: 1-서버-알림
-          status: FAILED
-          color: danger
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+

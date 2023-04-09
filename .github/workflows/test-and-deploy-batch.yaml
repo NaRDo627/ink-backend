@@ -1,4 +1,4 @@
-name: Test and Deploy with Noti batch
+name: Test and Deploy with Noti batch - Dev
 
 on:
   workflow_dispatch:

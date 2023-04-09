@@ -43,3 +43,5 @@ application-oauth.properties
 /.secrets
 
 /ink-core/src/main/resources/application-dev-local.yml
+/ink-core/src/main/resources/application-dev.yml
+/ink-core/src/main/resources/application-prod.yml
