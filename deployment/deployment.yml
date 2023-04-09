@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ink-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ink-app
+  template:
+    metadata:
+      labels:
+        app: ink-app
+    spec:
+      containers:
+        - name: ink-app
+          image: <IMAGE>
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "400m"
+            limits:
+              memory: "800Mi"
+              cpu: "600m"
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: "$SPRING_DATASOURCE_DRIVER_CLASS_NAME"
+            - name: SPRING_DATASOURCE_URL
+              value: "$SPRING_DATASOURCE_URL"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "$SPRING_DATASOURCE_USERNAME"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "$SPRING_DATASOURCE_PASSWORD"
+            - name: FIREBASE_SERVICE_KEY
+              value: "$FIREBASE_SERVICE_KEY"
+            - name: SPRING_JWT_SECRET
+              value: "$SPRING_JWT_SECRET"
+            - name: CLOUD_AWS_CREDENTIALS_ACCESS_KEY
+              value: "$CLOUD_AWS_CREDENTIALS_ACCESS_KEY"
+            - name: CLOUD_AWS_CREDENTIALS_SECRET_KEY
+              value: "$CLOUD_AWS_CREDENTIALS_SECRET_KEY"
+            - name: CLOUD_AWS_S3_BUCKET
+              value: "$CLOUD_AWS_S3_BUCKET"
+            - name: AWS_ACCESS_KEY
+              value: "$CLOUD_AWS_CREDENTIALS_ACCESS_KEY"
+            - name: AWS_SECRET_KEY
+              value: "$CLOUD_AWS_CREDENTIALS_SECRET_KEY"
+

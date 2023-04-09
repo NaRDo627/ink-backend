@@ -1,0 +1,38 @@
+package net.ink.api.member.component;
+
+import net.ink.api.common.DtoCreator;
+import net.ink.api.member.dto.MemberDto;
+import net.ink.api.member.dto.MemberScrapDto;
+import net.ink.api.todayexpression.dto.UsefulExpressionDto;
+import net.ink.core.common.EntityCreator;
+import net.ink.core.member.entity.Member;
+import net.ink.core.todayexpression.entity.UsefulExpression;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@SpringBootTest
+public class MemberScrapMapperTest {
+    @Autowired
+    private MemberScrapMapper memberScrapMapper;
+
+    private static final MemberDto memberDto = DtoCreator.createMemberDto();
+    private static final List<UsefulExpressionDto> todayExpressionDtoList = Arrays.asList(DtoCreator.createTodayExpressionDto(), DtoCreator.createTodayExpressionDto());
+    private static final Member member = EntityCreator.createMemberEntity();
+    private static final List<UsefulExpression> todayExpressionList = Arrays.asList(EntityCreator.createUsefulExpressionEntity(), EntityCreator.createUsefulExpressionEntity());
+
+    @Test
+    public void 엔티티에서_DTO변환_테스트() {
+        MemberScrapDto mappedDto = memberScrapMapper.toDto(member, todayExpressionList, member);
+        assertEquals(mappedDto.getMember().getEmail(), memberDto.getEmail());
+        assertEquals(mappedDto.getScrapList().get(0).getExpression(), todayExpressionDtoList.get(0).getExpression());
+        assertTrue(mappedDto.getScrapList().get(0).isScrappedByRequester());
+        assertTrue(mappedDto.isRequesterProfile());
+    }
+}
