@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @Slf4j
-@Api(value = "JWT 관련 엔드포인트")
+@Api(value = "JWT 관련 엔드포인트", tags = "JWT 관련 엔드포인트")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/jwt")

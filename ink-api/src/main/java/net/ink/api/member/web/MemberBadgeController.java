@@ -15,7 +15,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import static net.ink.core.core.message.ResponseMessage.CHECK_BADGE_ACCOMPLISHED;
 
-@Api(value = "사용자 뱃지 엔드포인트")
+@Api(value = "사용자 뱃지 엔드포인트", tags = "사용자 뱃지 엔드포인트")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/member")

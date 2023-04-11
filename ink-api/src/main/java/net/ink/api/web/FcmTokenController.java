@@ -1,5 +1,6 @@
 package net.ink.api.web;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -15,6 +16,7 @@ import net.ink.core.member.service.FcmTokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Api(value = "FCM 토큰 관련 엔드포인트", tags = "FCM 토큰 관련 엔드포인트")
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor

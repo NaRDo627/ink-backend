@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Api(value = "회원 관련 엔드포인트")
+@Api(value = "회원 관련 엔드포인트", tags = "회원 관련 엔드포인트")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/member")

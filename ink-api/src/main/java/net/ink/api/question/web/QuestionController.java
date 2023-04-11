@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(value = "질문 엔드포인트")
+@Api(value = "질문 엔드포인트", tags = "질문 엔드포인트")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/questions")

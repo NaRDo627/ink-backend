@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(value = "사용자 성과 엔드포인트")
+@Api(value = "사용자 성과 엔드포인트", tags = "사용자 성과 엔드포인트")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/member")

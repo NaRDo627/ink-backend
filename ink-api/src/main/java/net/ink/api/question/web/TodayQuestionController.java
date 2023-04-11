@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(value = "오늘의 질문 엔드포인트")
+@Api(value = "오늘의 질문 엔드포인트", tags = "오늘의 질문 엔드포인트")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/today-question")

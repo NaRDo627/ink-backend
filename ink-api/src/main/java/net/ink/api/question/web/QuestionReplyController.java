@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(value = "질문에 대한 답변 엔드포인트")
+@Api(value = "질문에 대한 답변 엔드포인트", tags = "질문에 대한 답변 엔드포인트")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/questions")

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(value = "오늘의 표현 엔드포인트")
+@Api(value = "오늘의 표현 엔드포인트", tags = "오늘의 표현 엔드포인트")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/today-expression")

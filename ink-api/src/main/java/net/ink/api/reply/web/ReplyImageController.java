@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@Api(value = "답변 이미지 관련 엔드포인트")
+@Api(value = "답변 이미지 관련 엔드포인트", tags = "답변 이미지 관련 엔드포인트")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/reply")

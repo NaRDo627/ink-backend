@@ -25,7 +25,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-@Api(value = "답변 엔드포인트")
+@Api(value = "답변 엔드포인트", tags = "답변 엔드포인트")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/reply")

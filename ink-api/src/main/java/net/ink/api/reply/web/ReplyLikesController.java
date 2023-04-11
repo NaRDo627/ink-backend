@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-@Api(value = "답변 좋아요 엔드포인트")
+@Api(value = "답변 좋아요 엔드포인트", tags = "답변 좋아요 엔드포인트")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/reply")

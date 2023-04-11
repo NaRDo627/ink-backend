@@ -14,7 +14,7 @@ import net.ink.core.member.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Api(value = "회원 설정 관련 엔드포인트")
+@Api(value = "회원 설정 관련 엔드포인트", tags = "회원 설정 관련 엔드포인트")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/member")
