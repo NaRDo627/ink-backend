@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ink-app-deployment
+  name: ink-api-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ink-app
+      app: ink-api
   template:
     metadata:
       labels:
-        app: ink-app
+        app: ink-api
     spec:
       containers:
-        - name: ink-app
+        - name: ink-api
           image: <IMAGE>
           resources:
             requests:

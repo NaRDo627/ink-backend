@@ -92,46 +92,6 @@ subprojects {
 	}
 }
 
-project(':ink-api') {
-	dependencies {
-		compile project(":ink-core")
-		testCompile project(':ink-core').sourceSets.test.output
-
-		implementation 'org.springframework.cloud:spring-cloud-aws-context:2.2.1.RELEASE'
-		implementation 'org.springframework.boot:spring-boot-starter-web'
-		implementation 'io.springfox:springfox-swagger2:2.9.2'
-		implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-		implementation 'org.springframework.boot:spring-boot-starter-security'
-		implementation 'io.jsonwebtoken:jjwt:0.9.1'
-		implementation 'org.springframework.security:spring-security-test'
-	}
-}
-
-project(':ink-batch') {
-	dependencies {
-		compile project(':ink-core')
-		testCompile project(':ink-core').sourceSets.test.output
-
-		implementation 'org.springframework.boot:spring-boot-starter-quartz'
-		implementation 'org.springframework.boot:spring-boot-starter-batch'
-		implementation 'com.mchange:c3p0'
-		testImplementation 'org.springframework.batch:spring-batch-test'
-	}
-}
-
-project(':ink-admin') {
-	dependencies {
-		compile project(":ink-core")
-		testCompile project(':ink-core').sourceSets.test.output
-
-		implementation 'org.springframework.cloud:spring-cloud-aws-context:2.2.1.RELEASE'
-		implementation 'org.springframework.boot:spring-boot-starter-web'
-		implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-		implementation 'org.springframework.boot:spring-boot-starter-security'
-		implementation 'org.springframework.security:spring-security-test'
-	}
-}
-
 dependencies {
 	liquibaseRuntime 'org.liquibase:liquibase-core:3.8.1'
 	liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:2.1.1'
