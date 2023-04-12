@@ -126,6 +126,7 @@ project(':ink-admin') {
 
 		implementation 'org.springframework.cloud:spring-cloud-aws-context:2.2.1.RELEASE'
 		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 		implementation 'org.springframework.boot:spring-boot-starter-security'
 		implementation 'org.springframework.security:spring-security-test'
 	}
