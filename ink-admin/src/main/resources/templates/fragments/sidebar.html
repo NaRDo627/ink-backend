@@ -12,10 +12,10 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item" th:classappend="${content == 'main'}? 'active' : ''">
+    <li class="nav-item" th:classappend="${page == 'main'}? 'active' : ''">
         <a class="nav-link" th:href="@{/}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+            <span>대시보드</span></a>
     </li>
 
     <!-- Divider -->
@@ -27,7 +27,7 @@
     </div>
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item" th:classappend="${content == 'member-management'}? 'active' : ''">
+    <li class="nav-item" th:classappend="${page == 'member-management'}? 'active' : ''">
         <a class="nav-link" th:href="@{/member-management}">
             <i class="fas fa-fw fa-users"></i>
             <span>회원 관리</span></a>
@@ -42,7 +42,7 @@
     </div>
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item" th:classappend="${content == 'question-management'}? 'active' : ''">
+    <li class="nav-item" th:classappend="${page == 'question-management'}? 'active' : ''">
         <a class="nav-link" th:href="@{/question-management}">
             <i class="fas fa-fw fa-question-circle"></i>
             <span>질문 관리</span></a>
@@ -57,7 +57,7 @@
     </div>
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item" th:classappend="${content == 'reply-management'}? 'active' : ''">
+    <li class="nav-item" th:classappend="${page == 'reply-management'}? 'active' : ''">
         <a class="nav-link" th:href="@{/reply-management}">
             <i class="fas fa-fw fa-exclamation-circle"></i>
             <span>답변 관리</span></a>

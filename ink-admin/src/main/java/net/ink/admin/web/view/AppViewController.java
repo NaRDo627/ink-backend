@@ -1,11 +1,11 @@
-package net.ink.admin.web;
+package net.ink.admin.web.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AppController {
+public class AppViewController {
 
     @GetMapping("/login")
     public String login() {
@@ -14,43 +14,37 @@ public class AppController {
 
     @GetMapping(value = {"/", "/main"})
     public String getMainPage(Model model) {
-        model.addAttribute("content", "main");
+        model.addAttribute("page", "main");
         return "base";
     }
 
     @GetMapping("/buttons")
     public String getButtonsPage(Model model) {
-        model.addAttribute("content", "buttons");
+        model.addAttribute("page", "buttons");
         return "base";
     }
 
     @GetMapping("/cards")
     public String getCardsPage(Model model) {
-        model.addAttribute("content", "cards");
+        model.addAttribute("page", "cards");
         return "base";
     }
 
     @GetMapping("/tables")
     public String getTablesPage(Model model) {
-        model.addAttribute("content", "tables");
-        return "base";
-    }
-
-    @GetMapping("/member-management")
-    public String getMemberManagement(Model model) {
-        model.addAttribute("content", "member-management");
+        model.addAttribute("page", "tables");
         return "base";
     }
 
     @GetMapping("/question-management")
     public String getQuestionManagement(Model model) {
-        model.addAttribute("content", "question-management");
+        model.addAttribute("page", "question-management");
         return "base";
     }
 
     @GetMapping("/reply-management")
     public String getReplyManagement(Model model) {
-        model.addAttribute("content", "reply-management");
+        model.addAttribute("page", "reply-management");
         return "base";
     }
 

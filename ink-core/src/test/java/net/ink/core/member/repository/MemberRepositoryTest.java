@@ -96,4 +96,12 @@ public class MemberRepositoryTest {
         assertTrue(memberRepository.existsByIdentifierAndIsActive("123", true));
         assertFalse(memberRepository.existsByIdentifierAndIsActive("125", true));
     }
+
+    @Test
+    @DatabaseSetup({
+            "classpath:dbunit/entity/member.xml"
+    })
+    public void 회원_전체_조회() {
+        assertEquals(2, memberRepository.findAllByIsActive(true).size());
+    }
 }

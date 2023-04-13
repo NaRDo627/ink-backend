@@ -11,6 +11,8 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static net.ink.core.core.message.ErrorMessage.DUPLICATED_NICKNAME;
 import static net.ink.core.core.message.ErrorMessage.NOT_EXIST_MEMBER;
 
@@ -50,6 +52,9 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public boolean isMemberExistIncludingDropped(String identifier) { return memberRepository.existsByIdentifier(identifier); }
+
+    @Transactional(readOnly = true)
+    public List<Member> findAllActiveMembers() { return memberRepository.findAllByIsActive(true); }
 
     @Transactional(readOnly = true)
     public Member findByIdentifier(String identifier) { return memberRepository.findByIdentifierAndIsActive(identifier, true)

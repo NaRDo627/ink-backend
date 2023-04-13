@@ -1,6 +1,80 @@
 <div class="container-fluid" th:fragment="content">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">회원 관리</h1>
+    <h1 class="h3 mb-2 text-gray-800">회원 관리</h1>
+    <p class="mb-4">회원 정보를 관리합니다.</p>
 
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">회원 테이블</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>idx</th>
+                        <th>Email</th>
+                        <th>별명</th>
+                        <th>잉크수</th>
+                        <th>출석 횟수</th>
+                        <th>마지막 출석 날짜</th>
+                        <th>식별 ID</th>
+                        <th>삭제</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>idx</th>
+                        <th>Email</th>
+                        <th>별명</th>
+                        <th>잉크수</th>
+                        <th>출석 횟수</th>
+                        <th>마지막 출석 날짜</th>
+                        <th>식별 ID</th>
+                        <th>삭제</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr th:each="member : ${members}">
+                        <td th:text="${member.memberId}"></td>
+                        <td th:text="${member.email}"></td>
+                        <td th:text="${member.nickname}"></td>
+                        <td th:text="${member.inkCount}"></td>
+                        <td th:text="${member.attendanceCount}"></td>
+                        <td th:text="${member.lastAttendanceDate}"></td>
+                        <td th:text="${member.identifier}"></td>
+                        <td>
+                            <button class="btn btn-danger delete-btn" th:data-member-id="${member.memberId}">삭제</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Add this at the end of your tables.html file -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.delete-btn').on('click', function () {
+                const memberId = $(this).data('member-id');
+                if (confirm('이 회원을 삭제할까요?')) {
+                    $.ajax({
+                        url: '/api/member/' + memberId,
+                        type: 'DELETE',
+                        success: function () {
+                            alert("삭제되었습니다.")
+                            location.reload();
+                        },
+                        error: function (error) {
+                            alert("삭제에 실패했습니다.")
+                            console.error('Error deleting member:', error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </div>

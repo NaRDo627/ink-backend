@@ -21,7 +21,7 @@
             <!-- End of Topbar -->
 
             <!-- Begin Page Content -->
-            <div th:insert="${content} :: content" class="container-fluid"></div>
+            <div th:replace="${page} :: content" class="container-fluid"></div>
             <!-- /.container-fluid -->
 
         </div>
