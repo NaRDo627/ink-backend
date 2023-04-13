@@ -154,9 +154,14 @@ jobs:
           # SSH to the remote server and deploy the Docker container using Docker Compose
           ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd ${{ vars.PATH_TO_REMOTE }} && docker-compose pull ink_backend_api && docker-compose down && docker-compose up -d"
 
+  notification-failure:
+    name: 실패시 디스코드에 알림
+    if: always()
+    needs: [ test, deployment-api ]
+    runs-on: ubuntu-latest
+    steps:
       - name: 실패시 디스코드에 알림
         uses: sarisia/actions-status-discord@v1
-        if: failure()
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
