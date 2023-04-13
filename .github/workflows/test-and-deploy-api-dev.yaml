@@ -54,7 +54,7 @@ jobs:
           encodedString: ${{ secrets.APPLICATION_YML_DEV_BASE64 }}
 
       - name: liquibase 스키마 업데이트
-          run: ./gradlew dbMigration update ${{ secrets.DB_MIGRATION_PARAMS_DEV }}
+        run: ./gradlew dbMigration update ${{ secrets.DB_MIGRATION_PARAMS_DEV }}
 
       - name: Gradle 테스트 및 실행파일 생성
         run: ./gradlew :ink-api:build :ink-api:test :ink-api:bootJar -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Seoul --info
