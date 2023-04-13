@@ -30,6 +30,30 @@ public class AppController {
         return "base";
     }
 
+    @GetMapping("/tables")
+    public String getTablesPage(Model model) {
+        model.addAttribute("content", "tables");
+        return "base";
+    }
+
+    @GetMapping("/member-management")
+    public String getMemberManagement(Model model) {
+        model.addAttribute("content", "member-management");
+        return "base";
+    }
+
+    @GetMapping("/question-management")
+    public String getQuestionManagement(Model model) {
+        model.addAttribute("content", "question-management");
+        return "base";
+    }
+
+    @GetMapping("/reply-management")
+    public String getReplyManagement(Model model) {
+        model.addAttribute("content", "reply-management");
+        return "base";
+    }
+
     @GetMapping("/exception")
     public String exception(Model model) {
         throw new RuntimeException("Exception test");

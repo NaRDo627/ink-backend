@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring",  uses = { MemberMapper.class, TodayExpressionMapper.class})
+@Mapper(componentModel = "spring", uses = { MemberMapper.class, TodayExpressionMapper.class})
 public interface MemberScrapMapper {
 
     @Mapping(source = "member", target = "member")

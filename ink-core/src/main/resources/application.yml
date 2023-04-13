@@ -2,6 +2,13 @@ spring:
     profiles:
       active: default
 
+    devtools:
+      restart:
+        enabled: true
+
+    thymeleaf:
+      cache: false
+
   # JPA
     jpa:
       hibernate:
