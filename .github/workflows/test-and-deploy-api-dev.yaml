@@ -13,7 +13,10 @@ on:
     branches:
       - main
     paths:
+      - 'ink-core/**'
       - 'ink-api/**'
+      - '.github/workflows/test-and-deploy-api-dev.yaml'
+      - 'deployment/docker-compose-api-dev.yml'
 
 env:
   JAR_NAME: ink-api-0.0.1-SNAPSHOT.jar
@@ -126,7 +129,7 @@ jobs:
           CLOUD_AWS_CREDENTIALS_ACCESS_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_ACCESS_KEY }}
           CLOUD_AWS_CREDENTIALS_SECRET_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_SECRET_KEY }}
         with:
-          input: deployment/docker-compose-dev.yml
+          input: deployment/docker-compose-api-dev.yml
           output: docker-compose.yml
 
       - name: Configure SSH key
