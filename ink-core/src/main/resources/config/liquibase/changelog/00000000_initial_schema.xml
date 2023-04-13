@@ -25,7 +25,7 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="image" type="varchar(255)"/>
-            <column name="ink_count" type="int" value="0">
+            <column name="mureng_count" type="int" value="0">
                 <constraints nullable="false"/>
             </column>
             <column name="attendance_count" type="int">
