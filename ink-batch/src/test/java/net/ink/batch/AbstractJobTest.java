@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 @SpringBatchTest
-@Sql("classpath:/sql/integration.sql")
+@Sql("classpath:local-test-data.sql")
 public abstract class AbstractJobTest {
     @Autowired
     protected JobLauncherTestUtils jobLauncherTestUtils;

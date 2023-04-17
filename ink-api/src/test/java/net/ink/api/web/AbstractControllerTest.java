@@ -11,7 +11,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @Transactional
-@Sql("classpath:/sql/integration.sql")
+@Sql("classpath:local-test-data.sql")
 @SpringBootTest
 @AutoConfigureMockMvc
 public abstract class AbstractControllerTest {

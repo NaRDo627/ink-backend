@@ -8,7 +8,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@Sql("classpath:/sql/integration.sql")
+@Sql("classpath:local-test-data.sql")
 @AutoConfigureMockMvc
 @SpringBootTest
 public abstract class AbstractControllerTest {

@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
-@Sql("classpath:/sql/integration.sql")
+@Sql("classpath:local-test-data.sql")
 @SpringBootTest
 class TodayUsefulExpressionRefreshServiceTest {
     @Autowired

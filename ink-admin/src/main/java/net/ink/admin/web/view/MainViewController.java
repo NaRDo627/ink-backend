@@ -1,11 +1,15 @@
 package net.ink.admin.web.view;
 
+import lombok.RequiredArgsConstructor;
+import net.ink.admin.service.view.MainViewService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AppViewController {
+@RequiredArgsConstructor
+public class MainViewController {
+    private final MainViewService mainViewService;
 
     @GetMapping("/login")
     public String login() {
@@ -20,24 +24,7 @@ public class AppViewController {
     @GetMapping(value = {"/", "/main"})
     public String getMainPage(Model model) {
         model.addAttribute("inner", "main");
-        return "base";
-    }
-
-    @GetMapping("/buttons")
-    public String getButtonsPage(Model model) {
-        model.addAttribute("inner", "buttons");
-        return "base";
-    }
-
-    @GetMapping("/cards")
-    public String getCardsPage(Model model) {
-        model.addAttribute("inner", "cards");
-        return "base";
-    }
-
-    @GetMapping("/tables")
-    public String getTablesPage(Model model) {
-        model.addAttribute("inner", "tables");
+        model.addAttribute("mainView", mainViewService.getDashboardItem());
         return "base";
     }
 
@@ -53,8 +40,5 @@ public class AppViewController {
         return "base";
     }
 
-    @GetMapping("/exception")
-    public String exception(Model model) {
-        throw new RuntimeException("Exception test");
-    }
+
 }
