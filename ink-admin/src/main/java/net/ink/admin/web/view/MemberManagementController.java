@@ -18,7 +18,7 @@ public class MemberManagementController {
 
     @GetMapping("/member-management")
     public String getMemberManagement(Model model) {
-        model.addAttribute("page", "member-management");
+        model.addAttribute("inner", "member-management");
         model.addAttribute("members",
                 memberService.findAllActiveMembers().stream().map(memberMapper::toDto).collect(Collectors.toList()));
         return "base";

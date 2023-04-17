@@ -12,39 +12,44 @@ public class AppViewController {
         return "login";
     }
 
+    @GetMapping("/register")
+    public String register() {
+        return "register";
+    }
+
     @GetMapping(value = {"/", "/main"})
     public String getMainPage(Model model) {
-        model.addAttribute("page", "main");
+        model.addAttribute("inner", "main");
         return "base";
     }
 
     @GetMapping("/buttons")
     public String getButtonsPage(Model model) {
-        model.addAttribute("page", "buttons");
+        model.addAttribute("inner", "buttons");
         return "base";
     }
 
     @GetMapping("/cards")
     public String getCardsPage(Model model) {
-        model.addAttribute("page", "cards");
+        model.addAttribute("inner", "cards");
         return "base";
     }
 
     @GetMapping("/tables")
     public String getTablesPage(Model model) {
-        model.addAttribute("page", "tables");
+        model.addAttribute("inner", "tables");
         return "base";
     }
 
     @GetMapping("/question-management")
     public String getQuestionManagement(Model model) {
-        model.addAttribute("page", "question-management");
+        model.addAttribute("inner", "question-management");
         return "base";
     }
 
     @GetMapping("/reply-management")
     public String getReplyManagement(Model model) {
-        model.addAttribute("page", "reply-management");
+        model.addAttribute("inner", "reply-management");
         return "base";
     }
 

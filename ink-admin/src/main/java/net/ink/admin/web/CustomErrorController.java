@@ -11,7 +11,7 @@ public class CustomErrorController implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError(Model model) {
-        model.addAttribute("content", "error/404");
+        model.addAttribute("inner", "error/404");
         return "base";
     }
 }
