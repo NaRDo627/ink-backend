@@ -30,7 +30,7 @@ public class RegistrationController {
 
         // Create a new AdminMember entity using the registerRequest
         AdminMember newAdmin = AdminMember.builder()
-                .username(registerRequest.getUsername())
+                .email(registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .nickname(registerRequest.getNickname())
                 .build();
@@ -45,9 +45,8 @@ public class RegistrationController {
     @Data
     public static class RegisterRequest {
         @NotBlank
-        @Size(min = 6, max = 14)
-        @Pattern(regexp = "^(?=.*[A-Za-z])[A-Za-z\\d]+$", message = "영문자 또는 영문자와 숫자 조합으로 입력해주세요. (숫자만 사용할 수 없습니다)")
-        private String username;
+        @Email(message = "이메일 형식이 올바르지 않습니다.")
+        private String email;
 
         @NotBlank
         @Size(min = 2, max = 8)

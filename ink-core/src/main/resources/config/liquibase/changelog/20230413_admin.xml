@@ -12,7 +12,7 @@
             <column name="admin_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
-            <column name="username" type="varchar(255)">
+            <column name="email" type="varchar(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="password" type="varchar(255)">

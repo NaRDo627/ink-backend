@@ -6,7 +6,6 @@ import net.ink.admin.entity.AdminMember;
 import net.ink.admin.repository.AdminMemberRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,14 +22,14 @@ public class AdminUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AdminMember adminMember = adminMemberRepository.findByUsername(username)
+        AdminMember adminMember = adminMemberRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         // Add roles/authorities if necessary
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
-        AdminUser user = new AdminUser(adminMember.getUsername(), adminMember.getPassword(), authorities);
+        AdminUser user = new AdminUser(adminMember.getEmail(), adminMember.getPassword(), authorities);
         user.setRank(adminMember.getRank());
         return user;
     }

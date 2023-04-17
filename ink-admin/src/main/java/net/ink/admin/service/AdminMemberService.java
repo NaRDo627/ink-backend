@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import net.ink.admin.entity.AdminMember;
 import net.ink.admin.repository.AdminMemberRepository;
 import net.ink.core.core.exception.BadRequestException;
-import net.ink.core.member.entity.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,7 @@ public class AdminMemberService {
             throw new BadRequestException(DUPLICATED_NICKNAME);
         }
 
-        if (isUsernameDuplicated(newMember.getUsername())) {
+        if (isEmailDuplicated(newMember.getEmail())) {
             throw new BadRequestException(DUPLICATED_NICKNAME);
         }
 
@@ -31,12 +30,12 @@ public class AdminMemberService {
     }
 
     @Transactional(readOnly = true)
-    public boolean isNicknameDuplicated(String nickname) {
-        return adminMemberRepository.existsByNicknameAndIsActive(nickname, true);
+    public boolean isNicknameDuplicated(String email) {
+        return adminMemberRepository.existsByNicknameAndIsActive(email, true);
     }
 
     @Transactional(readOnly = true)
-    public boolean isUsernameDuplicated(String username) {
-        return adminMemberRepository.existsByUsernameAndIsActive(username, true);
+    public boolean isEmailDuplicated(String email) {
+        return adminMemberRepository.existsByEmailAndIsActive(email, true);
     }
 }

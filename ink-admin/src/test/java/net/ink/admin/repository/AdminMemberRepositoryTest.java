@@ -22,7 +22,7 @@ class AdminMemberRepositoryTest {
             "classpath:dbunit/entity/admin_member.xml",
     })
     void findByUsername() {
-        Optional<AdminMember> result = adminMemberRepository.findByUsername("admin1");
+        Optional<AdminMember> result = adminMemberRepository.findByEmail("admin1@exmaple.com");
         assertTrue(result.isPresent());
         assertEquals("Admin One", result.get().getNickname());
         assertEquals(SUPERVISOR, result.get().getRank());
@@ -32,10 +32,10 @@ class AdminMemberRepositoryTest {
     @DatabaseSetup({
             "classpath:dbunit/entity/admin_member.xml",
     })
-    void findByUsernameAndRankNot() {
-        Optional<AdminMember> result = adminMemberRepository.findByUsernameAndRankNot("admin1", SUPERVISOR);
+    void findByEmailAndRankNot() {
+        Optional<AdminMember> result = adminMemberRepository.findByEmailAndRankNot("admin1@exmaple.com", SUPERVISOR);
         assertFalse(result.isPresent());
-        result = adminMemberRepository.findByUsernameAndRankNot("admin1", PENDING);
+        result = adminMemberRepository.findByEmailAndRankNot("admin1@exmaple.com", PENDING);
         assertTrue(result.isPresent());
         assertEquals("Admin One", result.get().getNickname());
         assertEquals(SUPERVISOR, result.get().getRank());
@@ -45,10 +45,10 @@ class AdminMemberRepositoryTest {
     @DatabaseSetup({
             "classpath:dbunit/entity/admin_member.xml",
     })
-    void existsByUsernameAndIsActive() {
-        assertTrue(adminMemberRepository.existsByUsernameAndIsActive("admin1", true));
-        assertFalse(adminMemberRepository.existsByUsernameAndIsActive("admin1", false));
-        assertFalse(adminMemberRepository.existsByUsernameAndIsActive("nonexistent", true));
+    void existsByEmailAndIsActive() {
+        assertTrue(adminMemberRepository.existsByEmailAndIsActive("admin1@exmaple.com", true));
+        assertFalse(adminMemberRepository.existsByEmailAndIsActive("admin1@exmaple.com", false));
+        assertFalse(adminMemberRepository.existsByEmailAndIsActive("nonexistent@exmaple.com", true));
     }
 
     @Test

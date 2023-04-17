@@ -19,8 +19,8 @@
                         </div>
                         <form class="user" onsubmit="register(event)">
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user" id="username" name="username"
-                                       placeholder="아이디">
+                                <input type="email" class="form-control form-control-user" id="email" name="email"
+                                       placeholder="이메일">
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user" id="nickname" name="nickname"
@@ -59,36 +59,30 @@
     function register(event) {
         event.preventDefault();
 
-        const username = $('#username').val();
+        const email = $('#email').val();
         const nickname = $('#nickname').val();
         const password = $('#password').val();
         const repeatPassword = $('#repeatPassword').val();
 
-        // 1. Check username length
-        if (username.length < 6 || username.length > 14) {
-            alert('아이디는 6자 이상 14자 이하로 입력해주세요.');
+        // 1. Check email format
+        if (!/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(email)) {
+            alert('이메일 형식이 올바르지 않습니다.');
             return;
         }
 
-        // 2. Check username is written in English only or English + Number combination
-        if (!/^(?=.*[A-Za-z])[A-Za-z\d]+$/.test(username)) {
-            alert('아이디는 영문자 또는 영문자와 숫자 조합으로 입력해주세요. (숫자만 사용할 수 없습니다)');
-            return;
-        }
-
-        // 3. Check nickname length
+        // 2. Check nickname length
         if (nickname.length < 2 || nickname.length > 8) {
             alert('별명은 2자 이상 8자 이하로 입력해주세요.');
             return;
         }
 
-        // 4. Check password length
+        // 3. Check password length
         if (password.length < 8) {
             alert('비밀번호는 8자 이상으로 입력해주세요.');
             return;
         }
 
-        // 5. Check password is a combination of English characters, numbers, and special characters
+        // 4. Check password is a combination of English characters, numbers, and special characters
         if (!/(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])/.test(password)) {
             alert('비밀번호는 영문자, 숫자, 특수문자의 조합으로 입력해주세요.');
             return;
@@ -101,7 +95,7 @@
         }
 
         const data = {
-            username: username,
+            email: email,
             nickname: nickname,
             password: password
         };
@@ -120,7 +114,7 @@
             error: function (xhr, status, error) {
                 // Handle registration error
                 console.log(error)
-                alert('회원가입 실패: ' + xhr.responseText);
+                alert('계정 신청 실패: ' + xhr.responseText);
             }
         });
     }

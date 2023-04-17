@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <admin_member admin_id="1" username="admin1" password="$2a$10$yS6UgKE6UvT6T22e6qZg4e4iGnE1lHmIgNaxa1D9a6MPhEiKjFwZC"
+    <admin_member admin_id="1" email="admin1@exmaple.com" password="$2a$10$yS6UgKE6UvT6T22e6qZg4e4iGnE1lHmIgNaxa1D9a6MPhEiKjFwZC"
                   nickname="Admin One" is_active="1" rank="SUPERVISOR" reg_date="2022-01-01 00:00:00" mod_date="2022-01-01 00:00:00"/>
-    <admin_member admin_id="2" username="admin2" password="$2a$10$wY1u8qdLvnh11HYV0I9XQO1yT6TlT6Uc4g4f3q3ZkD1i0zUk9a9XG"
+    <admin_member admin_id="2" email="admin2@exmaple.com" password="$2a$10$wY1u8qdLvnh11HYV0I9XQO1yT6TlT6Uc4g4f3q3ZkD1i0zUk9a9XG"
                   nickname="Admin Two" is_active="1" rank="MANAGER" reg_date="2022-01-02 00:00:00" mod_date="2022-01-02 00:00:00"/>
-    <admin_member admin_id="3" username="admin3" password="$2a$10$Q1dNkC6xN7s4p4qgI4D4Ce1yMzHrEXr9f3lL8uG1xHv7i0aD2QV7W"
+    <admin_member admin_id="3" email="admin3@exmaple.com" password="$2a$10$Q1dNkC6xN7s4p4qgI4D4Ce1yMzHrEXr9f3lL8uG1xHv7i0aD2QV7W"
                   nickname="Admin Three" is_active="1" rank="PENDING" reg_date="2022-01-03 00:00:00" mod_date="2022-01-03 00:00:00"/>
 </dataset>
