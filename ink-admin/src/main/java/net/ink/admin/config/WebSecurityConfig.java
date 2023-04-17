@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final AdminUserDetailsService userDetailsService;
+    private final AdminAuthenticationSuccessHandler adminAuthenticationSuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -41,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/main")
+                .successHandler(adminAuthenticationSuccessHandler)
                 .permitAll()
                 .and()
             .logout()

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
+import static net.ink.admin.entity.AdminMember.RANK.PENDING;
 import static net.ink.admin.entity.AdminMember.RANK.SUPERVISOR;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,6 +23,19 @@ class AdminMemberRepositoryTest {
     })
     void findByUsername() {
         Optional<AdminMember> result = adminMemberRepository.findByUsername("admin1");
+        assertTrue(result.isPresent());
+        assertEquals("Admin One", result.get().getNickname());
+        assertEquals(SUPERVISOR, result.get().getRank());
+    }
+
+    @Test
+    @DatabaseSetup({
+            "classpath:dbunit/entity/admin_member.xml",
+    })
+    void findByUsernameAndRankNot() {
+        Optional<AdminMember> result = adminMemberRepository.findByUsernameAndRankNot("admin1", SUPERVISOR);
+        assertFalse(result.isPresent());
+        result = adminMemberRepository.findByUsernameAndRankNot("admin1", PENDING);
         assertTrue(result.isPresent());
         assertEquals("Admin One", result.get().getNickname());
         assertEquals(SUPERVISOR, result.get().getRank());

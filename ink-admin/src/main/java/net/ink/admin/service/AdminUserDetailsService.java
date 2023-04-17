@@ -1,6 +1,7 @@
 package net.ink.admin.service;
 
 import lombok.RequiredArgsConstructor;
+import net.ink.admin.dto.AdminUser;
 import net.ink.admin.entity.AdminMember;
 import net.ink.admin.repository.AdminMemberRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,7 +30,9 @@ public class AdminUserDetailsService implements UserDetailsService {
         // Add roles/authorities if necessary
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
-        return new User(adminMember.getUsername(), adminMember.getPassword(), authorities);
+        AdminUser user = new AdminUser(adminMember.getUsername(), adminMember.getPassword(), authorities);
+        user.setRank(adminMember.getRank());
+        return user;
     }
 }
 
