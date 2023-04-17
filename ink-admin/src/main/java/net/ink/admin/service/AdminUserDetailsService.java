@@ -29,7 +29,7 @@ public class AdminUserDetailsService implements UserDetailsService {
         // Add roles/authorities if necessary
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
-        AdminUser user = new AdminUser(adminMember.getEmail(), adminMember.getPassword(), authorities);
+        AdminUser user = new AdminUser(adminMember.getNickname(), adminMember.getPassword(), authorities);
         user.setRank(adminMember.getRank());
         return user;
     }
