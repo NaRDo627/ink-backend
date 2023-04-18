@@ -28,12 +28,6 @@ public class MainViewController {
         return "base";
     }
 
-    @GetMapping("/question-management")
-    public String getQuestionManagement(Model model) {
-        model.addAttribute("inner", "question-management");
-        return "base";
-    }
-
     @GetMapping("/reply-management")
     public String getReplyManagement(Model model) {
         model.addAttribute("inner", "reply-management");
