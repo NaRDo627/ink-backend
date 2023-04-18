@@ -1,0 +1,47 @@
+<div class="container-fluid" th:fragment="content">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">프로필</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Profile Information</h5>
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <td th:text="${adminMember.adminId}"></td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td th:text="${adminMember.email}"></td>
+                        </tr>
+                        <tr>
+                            <th>Nickname</th>
+                            <td th:text="${adminMember.nickname}"></td>
+                        </tr>
+                        <tr>
+                            <th>Rank</th>
+                            <td th:text="${adminMember.rank}"></td>
+                        </tr>
+                        <tr>
+                            <th>Registration Date</th>
+                            <td th:text="${adminMember.regDate}"></td>
+                        </tr>
+                        <tr>
+                            <th>Last Modification Date</th>
+                            <td th:text="${adminMember.modDate}"></td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td th:text="${adminMember.isActive ? 'Active' : 'Inactive'}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

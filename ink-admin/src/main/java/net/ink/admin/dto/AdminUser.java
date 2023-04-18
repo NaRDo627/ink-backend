@@ -10,7 +10,16 @@ import java.util.Collection;
 
 @Getter @Setter
 public class AdminUser extends User {
-    private AdminMember.RANK rank;
+    private AdminMember adminMember;
+
+    public AdminMember.RANK getRank() {
+        return adminMember.getRank();
+    }
+
+    public AdminUser(AdminMember adminMember, Collection<? extends GrantedAuthority> authorities) {
+        super(adminMember.getNickname(), adminMember.getPassword(), authorities);
+        this.adminMember = adminMember;
+    }
 
     public AdminUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);

@@ -1,6 +1,8 @@
 package net.ink.admin.web.view;
 
 import lombok.RequiredArgsConstructor;
+import net.ink.admin.annotation.CurrentUser;
+import net.ink.admin.entity.AdminMember;
 import net.ink.admin.service.view.MainViewService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,11 +30,16 @@ public class MainViewController {
         return "base";
     }
 
+    @GetMapping("/profile")
+    public String getProfilePage(Model model, @CurrentUser AdminMember adminMember) {
+        model.addAttribute("inner", "profile");
+        model.addAttribute("adminMember", adminMember);
+        return "base";
+    }
+
     @GetMapping("/reply-management")
     public String getReplyManagement(Model model) {
         model.addAttribute("inner", "reply-management");
         return "base";
     }
-
-
 }
