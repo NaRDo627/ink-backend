@@ -27,7 +27,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">질문 테이블</h6>
+            <h6 class="m-0 font-weight-bold text-primary">질문 테이블 (레코드를 클릭하면 관련 단어 힌트를 관리합니다)</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -53,14 +53,14 @@
                     </tr>
                     </tfoot>
                     <tbody>
-                    <tr th:each="question : ${questions}">
+                    <tr th:each="question : ${questions}" th:data-href="@{/question-management/{questionId}/word-hint(questionId=${question.questionId})}">
                         <td th:text="${question.questionId}"></td>
                         <td th:text="${question.content}"></td>
                         <td th:text="${question.koContent}"></td>
                         <td th:text="${question.authorName}"></td>
                         <td th:text="${question.repliesCount}"></td>
                         <td>
-                            <button class="btn btn-danger delete-btn" th:data-member-id="${question.questionId}">삭제</button>
+                            <button class="btn btn-danger delete-btn" th:data-question-id="${question.questionId}">삭제</button>
                         </td>
                     </tr>
                     </tbody>
@@ -69,14 +69,31 @@
         </div>
     </div>
     <!-- Add this at the end of your tables.html file -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
     <script>
         $(document).ready(function () {
+            // Add these event handlers
+            $('tbody tr').hover(
+                function () {
+                    $(this).addClass('hover-bg');
+                },
+                function () {
+                    $(this).removeClass('hover-bg');
+                }
+            );
+
+            // Add this event handler
+            $('tbody tr').on('click', function (event) {
+                if (!$(event.target).hasClass('delete-btn')) {
+                    window.location.href = $(this).data('href');
+                }
+            });
+
             $('.delete-btn').on('click', function () {
-                const memberId = $(this).data('member-id');
+                const questionId = $(this).data('question-id');
                 if (confirm('이 질문을 삭제할까요?')) {
                     $.ajax({
-                        url: '/api/question/' + memberId,
+                        url: '/api/question/' + questionId,
                         type: 'DELETE',
                         success: function () {
                             alert("삭제되었습니다.")
