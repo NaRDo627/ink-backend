@@ -1,4 +1,4 @@
-package net.ink.admin.web.api;
+package net.ink.admin.web.api.advice;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

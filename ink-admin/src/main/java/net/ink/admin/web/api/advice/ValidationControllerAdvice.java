@@ -1,4 +1,4 @@
-package net.ink.admin.web.api;
+package net.ink.admin.web.api.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

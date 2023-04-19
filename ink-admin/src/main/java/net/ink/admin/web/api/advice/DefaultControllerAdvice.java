@@ -1,4 +1,4 @@
-package net.ink.admin.web.api;
+package net.ink.admin.web.api.advice;
 
 import net.ink.core.core.exception.*;
 import org.springframework.http.HttpStatus;
