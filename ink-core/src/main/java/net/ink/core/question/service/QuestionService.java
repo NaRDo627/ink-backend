@@ -32,7 +32,18 @@ public class QuestionService {
     }
 
     @Transactional
+    public Question update(Question question){
+        return this.create(question);
+    }
+
+    @Transactional
     public Question create(Question question){
         return questionRepository.saveAndFlush(question);
+    }
+
+    @Transactional
+    public void deleteById(Long questionId) {
+        Question question = this.getQuestionById(questionId);
+        questionRepository.delete(question);
     }
 }

@@ -1,4 +1,4 @@
-package net.ink.admin.web.view;
+package net.ink.admin.web.view.advice;
 
 import java.security.Principal;
 

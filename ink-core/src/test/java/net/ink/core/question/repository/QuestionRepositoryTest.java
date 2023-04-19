@@ -4,6 +4,8 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import net.ink.core.annotation.InkDataTest;
 import net.ink.core.member.repository.MemberRepository;
 import net.ink.core.question.entity.Question;
+import net.ink.core.question.entity.WordHint;
+import net.ink.core.reply.entity.Reply;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,10 +13,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @InkDataTest
 @DatabaseSetup({
@@ -32,6 +34,9 @@ public class QuestionRepositoryTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    WordHintRepository wordHintRepository;
 
     @Test
     public void 전체_질문_목록_조회(){
@@ -106,4 +111,28 @@ public class QuestionRepositoryTest {
             assertEquals(id--, question.getQuestionId());
         }
     }
+
+    @Test
+    public void 연쇄적으로_삭제되는지_테스트() {
+        // Prepare data
+        Long questionId = 1L;
+
+        // Check if question, word hints, and replies exist before deletion
+        Optional<Question> questionBeforeDeletion = questionRepository.findById(questionId);
+        assertTrue(questionBeforeDeletion.isPresent());
+        assertFalse(questionBeforeDeletion.get().getWordHints().isEmpty());
+        assertFalse(questionBeforeDeletion.get().getReplies().isEmpty());
+
+        // Delete the question
+        questionRepository.deleteById(questionId);
+        questionRepository.flush();
+
+        // Check if question is deleted
+        Optional<Question> questionAfterDeletion = questionRepository.findById(questionId);
+        assertFalse(questionAfterDeletion.isPresent());
+
+        Optional<WordHint> wordHint = wordHintRepository.findById(1L);
+        assertFalse(wordHint.isPresent());
+    }
+
 }

@@ -12,13 +12,14 @@
         <div class="card-body">
             <form id="questionForm">
                 <div class="form-group">
-                    <label for="content">내용</label>
-                    <input type="text" class="form-control" id="content" placeholder="내용을 입력하세요">
+                    <label for="enContent">내용</label>
+                    <input type="text" class="form-control" id="enContent" placeholder="내용을 입력하세요">
                 </div>
                 <div class="form-group">
                     <label for="koContent">해석</label>
                     <input type="text" class="form-control" id="koContent" placeholder="해석을 입력하세요">
                 </div>
+                <!-- TODO : add event handler, send POST request to /api/question -->
                 <button type="submit" class="btn btn-primary">질문 등록</button>
             </form>
         </div>
@@ -27,7 +28,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">질문 테이블 (레코드를 클릭하면 관련 단어 힌트를 관리합니다)</h6>
+            <h6 class="m-0 font-weight-bold text-primary">질문 테이블 (레코드를 클릭하면 상세 페이지로 넘어갑니다)</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -39,7 +40,6 @@
                         <th>해석</th>
                         <th>저자</th>
                         <th>응답 달린 수</th>
-                        <th>삭제</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -49,19 +49,15 @@
                         <th>해석</th>
                         <th>저자</th>
                         <th>응답 달린 수</th>
-                        <th>삭제</th>
                     </tr>
                     </tfoot>
                     <tbody>
-                    <tr th:each="question : ${questions}" th:data-href="@{/question-management/{questionId}/word-hint(questionId=${question.questionId})}">
+                    <tr th:each="question : ${questions}" th:data-href="@{/question-management/{questionId}(questionId=${question.questionId})}">
                         <td th:text="${question.questionId}"></td>
                         <td th:text="${question.content}"></td>
                         <td th:text="${question.koContent}"></td>
                         <td th:text="${question.authorName}"></td>
                         <td th:text="${question.repliesCount}"></td>
-                        <td>
-                            <button class="btn btn-danger delete-btn" th:data-question-id="${question.questionId}">삭제</button>
-                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -89,22 +85,31 @@
                 }
             });
 
-            $('.delete-btn').on('click', function () {
-                const questionId = $(this).data('question-id');
-                if (confirm('이 질문을 삭제할까요?')) {
-                    $.ajax({
-                        url: '/api/question/' + questionId,
-                        type: 'DELETE',
-                        success: function () {
-                            alert("삭제되었습니다.")
-                            location.reload();
-                        },
-                        error: function (error) {
-                            alert("삭제에 실패했습니다.")
-                            console.error('Error deleting member:', error);
-                        }
-                    });
-                }
+            // Add an event handler for the form submission
+            $('#questionForm').on('submit', function (event) {
+                event.preventDefault();
+
+                // Get the form data
+                const enContent = $('#enContent').val();
+                const koContent = $('#koContent').val();
+
+                // Send a POST request to /api/question
+                $.ajax({
+                    url: '/api/question',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        content: enContent,
+                        koContent: koContent
+                    }),
+                    success: function () {
+                        alert('질문이 등록되었습니다.');
+                        location.reload();
+                    },
+                    error: function (error) {
+                        alert('질문 등록에 실패했습니다: ' + error.responseText);
+                    }
+                });
             });
         });
     </script>

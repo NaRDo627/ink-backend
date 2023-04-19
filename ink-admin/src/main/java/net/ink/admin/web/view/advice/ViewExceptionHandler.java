@@ -1,4 +1,4 @@
-package net.ink.admin.web.view;
+package net.ink.admin.web.view.advice;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;

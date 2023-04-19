@@ -1,0 +1,221 @@
+<div class="container-fluid" th:fragment="content">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">질문 상세</h1>
+
+    <div id="questionIdHolder" th:data-question-id="${question.questionId}" style="display: none;"></div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary">질문 관리하기</h6>
+        </div>
+        <div class="card-body">
+            <form id="questionForm">
+                <div class="form-group">
+                    <label for="enContent">질문</label>
+                    <input type="text" class="form-control" id="enContent" placeholder="내용을 입력하세요" th:value="${question.content}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="koContent">해석</label>
+                    <input type="text" class="form-control" id="koContent" placeholder="해석을 입력하세요" th:value="${question.koContent}" readonly>
+                </div>
+                <button type="button" class="btn btn-primary" id="editButton">수정</button>
+                <button type="button" class="btn btn-danger" id="deleteButton">삭제</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary">단어 힌트 등록하기</h6>
+        </div>
+        <div class="card-body">
+            <form id="hintForm">
+                <div class="form-group">
+                    <label for="content">단어</label>
+                    <input type="text" class="form-control" id="word" placeholder="내용을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="koContent">뜻</label>
+                    <input type="text" class="form-control" id="meaning" placeholder="해석을 입력하세요">
+                </div>
+                <!-- TODO : add event handler, send POST request to url /api/question/{questionId}/word-hint -->
+                <button type="submit" class="btn btn-primary">단어 힌트 등록</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">단어 힌트 테이블</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>idx</th>
+                        <th>단어</th>
+                        <th>뜻</th>
+                        <th>수정</th>
+                        <th>삭제</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>idx</th>
+                        <th>단어</th>
+                        <th>뜻</th>
+                        <th>수정</th>
+                        <th>삭제</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr th:each="wordHint : ${question.wordHints}">
+                        <td th:text="${wordHint.hintId}"></td>
+                        <td><input type="text" class="form-control" th:value="${wordHint.word}" readonly></td>
+                        <td><input type="text" class="form-control" th:value="${wordHint.meaning}" readonly></td>
+                        <td>
+                            <button class="btn btn-primary edit-hint" th:data-hint-id="${wordHint.hintId}">수정</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger delete-hint" th:data-hint-id="${wordHint.hintId}">삭제</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Add this at the end of your tables.html file -->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script>
+        $(document).ready(function () {
+            let isEditing = false;
+
+            $('#editButton').on('click', function () {
+                if (!isEditing) {
+                    $('#enContent, #koContent').prop('readonly', false);
+                    $('#editButton').addClass("btn-success").removeClass("btn-primary").text('완료');
+                    isEditing = true;
+                } else {
+                    const questionId = $('#questionIdHolder').data('question-id');
+                    const enContent = $('#enContent').val();
+                    const koContent = $('#koContent').val();
+
+                    $.ajax({
+                        url: '/api/question/' + questionId,
+                        type: 'PUT',
+                        data: JSON.stringify({content: enContent, koContent: koContent}),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function () {
+                            alert("수정되었습니다.");
+                            $('#enContent, #koContent').prop('readonly', true);
+                            $('#editButton').addClass("btn-primary").removeClass("btn-success").text('수정');
+                            isEditing = false;
+                        },
+                        error: function (error) {
+                            alert("수정에 실패했습니다.");
+                            console.error('Error updating question:', error);
+                        }
+                    });
+                }
+            });
+
+            $('#deleteButton').on('click', function () {
+                const questionId = $('#questionIdHolder').data('question-id');
+                if (confirm('*주의: 관련 답변과 단어 힌트들이 모두 삭제됩니다. 이 질문을 삭제할까요?')) {
+                    $.ajax({
+                        url: '/api/question/' + questionId,
+                        type: 'DELETE',
+                        success: function () {
+                            alert("삭제되었습니다.");
+                            location.href = '/question-management';
+                        },
+                        error: function (error) {
+                            alert("삭제에 실패했습니다.");
+                            console.error('Error deleting question:', error);
+                        }
+                    });
+                }
+            });
+
+            $('.edit-hint').on('click', function () {
+                const hintId = $(this).data('hint-id');
+                const row = $(this).closest('tr');
+                const wordInput = row.find('input').eq(0);
+                const meaningInput = row.find('input').eq(1);
+                const isReadOnly = wordInput.prop('readonly');
+
+                let $btn;
+                if (isReadOnly) {
+                    wordInput.prop('readonly', false);
+                    meaningInput.prop('readonly', false);
+                    $(this).addClass("btn-success").removeClass("btn-primary").text('완료');
+                } else {
+                    const word = wordInput.val();
+                    const meaning = meaningInput.val();
+                    $btn = $(this)
+
+                    $.ajax({
+                        url: '/api/word-hint/' + hintId,
+                        type: 'PUT',
+                        data: JSON.stringify({word: word, meaning: meaning}),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function () {
+                            alert("수정되었습니다.");
+                            wordInput.prop('readonly', true);
+                            meaningInput.prop('readonly', true);
+                            $btn.addClass("btn-primary").removeClass("btn-success").text('수정');
+                        },
+                        error: function (error) {
+                            alert("수정에 실패했습니다.");
+                            console.error('Error updating word hint:', error);
+                        }
+                    });
+                }
+            });
+
+            $('.delete-hint').on('click', function () {
+                const hintId = $(this).data('hint-id');
+                if (confirm('이 단어 힌트를 삭제할까요?')) {
+                    $.ajax({
+                        url: '/api/word-hint/' + hintId,
+                        type: 'DELETE',
+                        success: function () {
+                            alert("단어 힌트가 삭제되었습니다.");
+                            location.reload();
+                        },
+                        error: function (error) {
+                            alert("단어 힌트 삭제에 실패했습니다.");
+                            console.error('Error deleting word hint:', error);
+                        }
+                    });
+                }
+            });
+
+            $('#hintForm').on('submit', function (e) {
+                e.preventDefault();
+                const questionId = $('#questionIdHolder').data('question-id');
+                const word = $('#word').val();
+                const meaning = $('#meaning').val();
+
+                $.ajax({
+                    url: '/api/question/' + questionId + '/word-hint',
+                    type: 'POST',
+                    data: JSON.stringify({word: word, meaning: meaning}),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function () {
+                        alert("단어 힌트가 등록되었습니다.");
+                        location.reload();
+                    },
+                    error: function (error) {
+                        alert("단어 힌트 등록에 실패했습니다.");
+                        console.error('Error registering word hint:', error);
+                    }
+                });
+            });
+
+        });
+    </script>
+
+</div>

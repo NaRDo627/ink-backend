@@ -9,7 +9,7 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = {  MemberMapper.class })
+        uses = {  MemberMapper.class, MemberMapper.class })
 public interface QuestionMapper {
     @Mapping(target = "repliesCount", expression = "java(question.getReplies().size())")
     @Mapping(target = "authorName", expression = "java(question.getAuthor() == null ? \"시스템\" : question.getAuthor().getNickname())")

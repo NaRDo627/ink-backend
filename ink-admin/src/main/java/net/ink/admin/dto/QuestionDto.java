@@ -26,4 +26,5 @@ public class QuestionDto {
     private String koContent;
     private String authorName;
     private int repliesCount;
+    private Set<WordHintDto> wordHints;
 }
