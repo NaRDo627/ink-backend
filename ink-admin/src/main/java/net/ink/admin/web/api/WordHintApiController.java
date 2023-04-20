@@ -1,6 +1,7 @@
 package net.ink.admin.web.api;
 
 import lombok.RequiredArgsConstructor;
+import net.ink.admin.annotation.AdminLogging;
 import net.ink.admin.dto.QuestionDto;
 import net.ink.admin.dto.WordHintDto;
 import net.ink.admin.dto.mapper.QuestionMapper;
@@ -25,7 +26,7 @@ public class WordHintApiController {
     private final WordHintService wordHintService;
     private final WordHintMapper wordHintMapper;
 
-    // Add word hint
+    @AdminLogging
     @PostMapping("/question/{questionId}/word-hint")
     public ResponseEntity<?> addWordHint(@PathVariable Long questionId, @Valid @RequestBody WordHintDto wordHintDto) {
         Question question = questionService.getQuestionById(questionId);
@@ -36,7 +37,7 @@ public class WordHintApiController {
         return ResponseEntity.ok().build();
     }
 
-    // Update word hint
+    @AdminLogging
     @PutMapping("/word-hint/{hintId}")
     public ResponseEntity<?> updateWordHint(@PathVariable Long hintId, @Valid @RequestBody WordHintDto wordHintDto) {
         wordHintDto.setHintId(hintId);
@@ -44,7 +45,7 @@ public class WordHintApiController {
         return ResponseEntity.ok().build();
     }
 
-    // Delete word hint
+    @AdminLogging
     @DeleteMapping("/word-hint/{hintId}")
     public ResponseEntity<?> deleteWordHint(@PathVariable Long hintId) {
         wordHintService.deleteById(hintId);

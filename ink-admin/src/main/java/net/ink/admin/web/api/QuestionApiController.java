@@ -1,6 +1,7 @@
 package net.ink.admin.web.api;
 
 import lombok.RequiredArgsConstructor;
+import net.ink.admin.annotation.AdminLogging;
 import net.ink.admin.dto.QuestionDto;
 import net.ink.admin.dto.mapper.QuestionMapper;
 import net.ink.core.question.entity.Question;
@@ -18,12 +19,14 @@ public class QuestionApiController {
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
 
+    @AdminLogging
     @PostMapping("/question")
     public ResponseEntity<?> addQuestion(@Valid @RequestBody QuestionDto questionDto) {
         questionService.create(questionMapper.toEntity(questionDto, null));
         return ResponseEntity.ok().build();
     }
 
+    @AdminLogging
     @PutMapping("/question/{questionId}")
     public ResponseEntity<?> updateQuestion(@PathVariable Long questionId, @Valid @RequestBody QuestionDto questionDto) {
         Question question = questionService.getQuestionById(questionId);
@@ -33,6 +36,7 @@ public class QuestionApiController {
         return ResponseEntity.ok().build();
     }
 
+    @AdminLogging
     @DeleteMapping("/question/{questionId}")
     public ResponseEntity<?> deleteQuestion(@PathVariable("questionId") Long questionId) {
         questionService.deleteById(questionId);
