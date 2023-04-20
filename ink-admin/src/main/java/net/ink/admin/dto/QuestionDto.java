@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -20,6 +21,7 @@ public class QuestionDto {
     private String category;
 
     @NotEmpty @Size(max = 73)
+    @Pattern(regexp = "^[A-Za-z0-9\\s\\\\!@#$%^&*(),.?\":{}|<>]+$", message = "Word must only contain English letters, numbers, and special characters.")
     private String content;
 
     @Size(max = 45)

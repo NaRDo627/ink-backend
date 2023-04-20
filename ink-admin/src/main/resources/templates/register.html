@@ -83,7 +83,7 @@
         }
 
         // 4. Check password is a combination of English characters, numbers, and special characters
-        if (!/(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])/.test(password)) {
+        if (!/^[A-Za-z0-9\s\\!@#$%^&*(),.?":{}|<>]+$/.test(password)) {
             alert('비밀번호는 영문자, 숫자, 특수문자의 조합으로 입력해주세요.');
             return;
         }

@@ -31,14 +31,13 @@
         <div class="card-body">
             <form id="hintForm">
                 <div class="form-group">
-                    <label for="content">단어</label>
-                    <input type="text" class="form-control" id="word" placeholder="내용을 입력하세요">
+                    <label for="word">단어</label>
+                    <input type="text" class="form-control" id="word" placeholder="단어을 입력하세요">
                 </div>
                 <div class="form-group">
-                    <label for="koContent">뜻</label>
-                    <input type="text" class="form-control" id="meaning" placeholder="해석을 입력하세요">
+                    <label for="meaning">뜻</label>
+                    <input type="text" class="form-control" id="meaning" placeholder="뜻을 입력하세요">
                 </div>
-                <!-- TODO : add event handler, send POST request to url /api/question/{questionId}/word-hint -->
                 <button type="submit" class="btn btn-primary">단어 힌트 등록</button>
             </form>
         </div>
@@ -101,6 +100,20 @@
                     const questionId = $('#questionIdHolder').data('question-id');
                     const enContent = $('#enContent').val();
                     const koContent = $('#koContent').val();
+                    if (enContent.length < 1) {
+                        alert("질문 내용을 입력하세요.")
+                        return;
+                    }
+
+                    if (koContent.length < 1) {
+                        alert("해석 내용을 입력하세요.")
+                        return;
+                    }
+
+                    if (!/^[A-Za-z0-9\s\\!@#$%^&*(),.?":{}|<>]+$/.test(enContent)) {
+                        alert("영문 또는 영문과 숫자의 조합만 입력하세요.");
+                        return;
+                    }
 
                     $.ajax({
                         url: '/api/question/' + questionId,
@@ -154,6 +167,21 @@
                 } else {
                     const word = wordInput.val();
                     const meaning = meaningInput.val();
+                    if (word.length < 1) {
+                        alert("수정할 단어 내용을 입력하세요.")
+                        return;
+                    }
+
+                    if (meaning.length < 1) {
+                        alert("수정할 단어 뜻을 입력하세요.")
+                        return;
+                    }
+
+                    if (!/^[A-Za-z0-9\s\\!@#$%^&*(),.?":{}|<>]+$/.test(word)) {
+                        alert("단어에는 영문 또는 영문과 숫자의 조합만 입력하세요.");
+                        return;
+                    }
+
                     $btn = $(this)
 
                     $.ajax({
@@ -198,6 +226,21 @@
                 const questionId = $('#questionIdHolder').data('question-id');
                 const word = $('#word').val();
                 const meaning = $('#meaning').val();
+
+                if (word.length < 1) {
+                    alert("단어 내용을 입력하세요.")
+                    return;
+                }
+
+                if (meaning.length < 1) {
+                    alert("단어 뜻을 입력하세요.")
+                    return;
+                }
+
+                if (!/^[A-Za-z0-9\s\\!@#$%^&*(),.?":{}|<>]+$/.test(word)) {
+                    alert("단어에는 영문 또는 영문과 숫자의 조합만 입력하세요.");
+                    return;
+                }
 
                 $.ajax({
                     url: '/api/question/' + questionId + '/word-hint',

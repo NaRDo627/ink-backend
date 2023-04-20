@@ -92,6 +92,20 @@
                 // Get the form data
                 const enContent = $('#enContent').val();
                 const koContent = $('#koContent').val();
+                if (enContent.length < 1) {
+                    alert("질문 내용을 입력하세요.")
+                    return;
+                }
+
+                if (koContent.length < 1) {
+                    alert("해석 내용을 입력하세요.")
+                    return;
+                }
+
+                if (!/^[A-Za-z0-9\s\\!@#$%^&*(),.?":{}|<>]+$/.test(enContent)) {
+                    alert("질문에는 영문 또는 영문과 숫자의 조합만 입력하세요.");
+                    return;
+                }
 
                 // Send a POST request to /api/question
                 $.ajax({
