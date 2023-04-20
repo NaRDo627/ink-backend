@@ -4,6 +4,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import net.ink.core.annotation.InkDataTest;
 import net.ink.core.common.EntityCreator;
 import net.ink.core.reply.entity.Reply;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,8 +17,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @InkDataTest
 @DatabaseSetup({

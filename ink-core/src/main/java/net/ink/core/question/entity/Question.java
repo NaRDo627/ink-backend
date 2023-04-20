@@ -6,10 +6,8 @@ import net.ink.core.reply.entity.Reply;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Builder
 @Getter @Setter
@@ -38,14 +36,19 @@ public class Question {
     private String koContent;
 
     @Builder.Default
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<WordHint> wordHints = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> replies = new ArrayList<>();
 
     @Builder.Default
     @Column(name = "reg_date", nullable = false)
     private LocalDateTime regDate = LocalDateTime.now();
+
+    public void removeReply(Reply reply) {
+        this.replies = this.replies.stream()
+                .filter(x -> !Objects.equals(x.getReplyId(), reply.getReplyId())).collect(Collectors.toList());
+    }
 }

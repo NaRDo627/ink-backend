@@ -26,6 +26,7 @@ class WordHintApiControllerTest extends AbstractControllerTest {
     @WithMockInkAdminUser
     public void testAddWordHint() throws Exception {
         WordHintDto newWordHint = DtoCreator.createWordHintDto();
+        newWordHint.setHintId(null);
 
         mockMvc.perform(post("/api/question/" + QUESTION_ID + "/word-hint")
                         .contentType(MediaType.APPLICATION_JSON)
