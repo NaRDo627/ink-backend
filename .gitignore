@@ -45,3 +45,14 @@ application-oauth.properties
 /ink-core/src/main/resources/application-dev-local.yml
 /ink-core/src/main/resources/application-dev.yml
 /ink-core/src/main/resources/application-prod.yml
+/ink-api/src/main/resources/application-dev-local.yml
+/ink-api/src/main/resources/application-dev.yml
+/ink-api/src/main/resources/application-prod.yml
+/ink-batch/src/main/resources/application-dev-local.yml
+/ink-batch/src/main/resources/application-dev.yml
+/ink-batch/src/main/resources/application-prod.yml
+/ink-admin/src/main/resources/application-dev-local.yml
+/ink-admin/src/main/resources/application-dev.yml
+/ink-admin/src/main/resources/application-prod.yml
+
+

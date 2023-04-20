@@ -1,0 +1,87 @@
+spring:
+    profiles:
+      active: default
+
+    devtools:
+      restart:
+        enabled: true
+
+    thymeleaf:
+      cache: false
+
+  # JPA
+    jpa:
+      hibernate:
+        ddl-auto: validate
+      show_sql: true
+      properties:
+          hibernate:
+            format_sql: true
+    # Batch
+    batch:
+      job:
+        enabled: false
+
+  # JWT
+    jwt:
+      secret: 12345678901234567890123456789012
+
+    # liquibase
+    liquibase:
+      change-log: classpath:config/liquibase/master.xml
+#        enabled: false
+    social:
+      KAKAO:
+        url:
+          profile: https://kapi.kakao.com/v2/user/me
+      GOOGLE:
+        url:
+          profile: https://www.googleapis.com/oauth2/v3/userinfo
+
+
+# logging
+logging:
+    level:
+        org:
+          hibernate:
+                type:
+                  descriptor:
+                          sql: trace
+        net:
+          ink:
+            info
+
+# server
+server:
+  error:
+    whitelabel:
+          enabled: false
+
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+
+# media
+media:
+  base:
+    dir:
+      name: /home/gradle/mount
+
+
+# firebase
+firebase:
+  service:
+    key:
+
+cloud:
+  aws:
+    credentials:
+      access_key: CLOUD_AWS_CREDENTIALS_ACCESS_KEY
+      secret_key: CLOUD_AWS_CREDENTIALS_SECRET_KEY
+    s3:
+      bucket: CLOUD_AWS_S3_BUCKET
+    region:
+      static: ap-northeast-2

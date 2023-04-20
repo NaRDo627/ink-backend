@@ -1,0 +1,14 @@
+spring:
+  liquibase:
+      enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+  sql:
+    init:
+      data-locations: classpath:local-test-data.sql
+
+logging:
+  level:
+    root: info
