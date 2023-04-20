@@ -21,10 +21,13 @@ public class WithMockInkAdminUserSecurityContextFactory implements WithSecurityC
         List<GrantedAuthority> authorities = new ArrayList<>();
         // Add roles/authorities if necessary
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        authorities.add(new SimpleGrantedAuthority("ROLE_SUPERVISOR"));
         AdminUser principal =
                 new AdminUser(AdminMember.builder()
+                        .adminId(1L)
                         .email("test@email.com")
                         .nickname("테스트")
+                        .rank(AdminMember.RANK.SUPERVISOR)
                         .password("password").build(), authorities);
         Authentication auth =
                 new UsernamePasswordAuthenticationToken(principal, "password", principal.getAuthorities());

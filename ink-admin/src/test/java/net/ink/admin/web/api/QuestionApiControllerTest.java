@@ -9,6 +9,7 @@ import net.ink.admin.web.AbstractControllerTest;
 import net.ink.core.question.entity.Question;
 import net.ink.core.question.repository.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,6 +27,7 @@ class QuestionApiControllerTest extends AbstractControllerTest {
 
     @Test
     @WithMockInkAdminUser
+    @DisplayName("질문을 수정한다.")
     public void testUpdateQuestion() throws Exception {
         QuestionDto updatedQuestion = DtoCreator.createQuestionDto();
         updatedQuestion.setContent("Updated question");
@@ -39,6 +41,7 @@ class QuestionApiControllerTest extends AbstractControllerTest {
 
     @Test
     @WithMockInkAdminUser
+    @DisplayName("질문을 삭제한다.")
     public void testDeleteQuestion() throws Exception {
         mockMvc.perform(delete("/api/question/" + QUESTION_ID))
                 .andExpect(status().isOk());

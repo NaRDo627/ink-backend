@@ -55,6 +55,16 @@ INSERT INTO badge_accomplished (badge_id, member_id, reg_date, is_checked) VALUE
 INSERT INTO badge_accomplished (badge_id, member_id, reg_date, is_checked) VALUES (2, 1, '2021-07-08 11:13:51.113911', false);
 
 INSERT INTO admin_member
-(email, password, nickname, rank, is_active, reg_date, mod_date)
+(admin_id, email, password, nickname, rank, is_active, reg_date, mod_date)
 VALUES
-    ('test@email.com', '$2a$10$/PnmsvW7V2bSb9gyPgJPwukDBz4E4nnVQwzgoZUzRdXFx10ZLvGXy', '테스트', 'SUPERVISOR', true, '2023-04-13 10:30:00', '2023-04-13 10:30:00');
+    (1, 'test@email.com', '$2a$10$/PnmsvW7V2bSb9gyPgJPwukDBz4E4nnVQwzgoZUzRdXFx10ZLvGXy', '테스트', 'SUPERVISOR', true, '2023-04-13 10:30:00', '2023-04-13 10:30:00');
+
+INSERT INTO admin_member
+(admin_id, email, password, nickname, rank, is_active, reg_date, mod_date)
+VALUES
+    (2, 'test2@email.com', '$2a$10$/PnmsvW7V2bSb9gyPgJPwukDBz4E4nnVQwzgoZUzRdXFx10ZLvGXy', '테스트2', 'MANAGER', true, '2023-04-13 10:30:00', '2023-04-13 10:30:00');
+
+INSERT INTO admin_member
+(admin_id, email, password, nickname, rank, is_active, reg_date, mod_date)
+VALUES
+    (3, 'test3@email.com', '$2a$10$/PnmsvW7V2bSb9gyPgJPwukDBz4E4nnVQwzgoZUzRdXFx10ZLvGXy', '테스트3', 'PENDING', true, '2023-04-13 10:30:00', '2023-04-13 10:30:00');

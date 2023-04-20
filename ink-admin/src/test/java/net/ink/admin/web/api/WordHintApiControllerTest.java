@@ -1,10 +1,12 @@
 package net.ink.admin.web.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import liquibase.pro.packaged.D;
 import net.ink.admin.annotation.WithMockInkAdminUser;
 import net.ink.admin.common.DtoCreator;
 import net.ink.admin.dto.WordHintDto;
 import net.ink.admin.web.AbstractControllerTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,6 +26,7 @@ class WordHintApiControllerTest extends AbstractControllerTest {
 
     @Test
     @WithMockInkAdminUser
+    @DisplayName("단어 힌트를 추가한다.")
     public void testAddWordHint() throws Exception {
         WordHintDto newWordHint = DtoCreator.createWordHintDto();
         newWordHint.setHintId(null);
@@ -36,6 +39,7 @@ class WordHintApiControllerTest extends AbstractControllerTest {
 
     @Test
     @WithMockInkAdminUser
+    @DisplayName("단어 힌트를 수정한다.")
     public void testUpdateWordHint() throws Exception {
         WordHintDto updatedWordHint = new WordHintDto(HINT_ID, "updated", "업데이트된");
 
@@ -47,6 +51,7 @@ class WordHintApiControllerTest extends AbstractControllerTest {
 
     @Test
     @WithMockInkAdminUser
+    @DisplayName("단어 힌트를 삭제한다.")
     public void testDeleteWordHint() throws Exception {
         mockMvc.perform(delete("/api/word-hint/" + HINT_ID))
                 .andExpect(status().isOk());

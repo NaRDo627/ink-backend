@@ -55,7 +55,7 @@
         </div>
     </div>
     <!-- Add this at the end of your tables.html file -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
     <script>
         $(document).ready(function () {
             $('.delete-btn').on('click', function () {

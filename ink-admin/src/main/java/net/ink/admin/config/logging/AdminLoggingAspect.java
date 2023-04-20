@@ -34,6 +34,9 @@ public class AdminLoggingAspect {
     @Around("adminLoggingPointcut()")
     public Object logMethodExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         Object result = joinPoint.proceed();
+        if (SecurityContextHolder.getContext().getAuthentication() == null) {
+            return result;
+        }
 
         AdminUser user = (AdminUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AdminMember adminMember = user.getAdminMember();

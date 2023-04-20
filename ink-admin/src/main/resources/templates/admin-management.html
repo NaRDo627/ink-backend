@@ -1,0 +1,103 @@
+<div class="container-fluid" th:fragment="content">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">어드민 관리</h1>
+    <p class="mb-4">어드민 정보를 관리합니다. <br><b>매니저 등급을 슈퍼관리자로 승급시, 현재 로그인한 계정의 등급이 매니저로 하향되며, 현재 세션에서 로그아웃 됩니다.</b></p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">어드민 테이블</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>idx</th>
+                        <th>Email</th>
+                        <th>별명</th>
+                        <th>등급</th>
+                        <th>승급</th>
+                        <th>삭제</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>idx</th>
+                        <th>Email</th>
+                        <th>별명</th>
+                        <th>등급</th>
+                        <th>승급</th>
+                        <th>삭제</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr th:each="adminMember : ${adminMembers}">
+                        <td th:text="${adminMember.adminId}"></td>
+                        <td th:text="${adminMember.email}"></td>
+                        <td th:text="${adminMember.nickname}"></td>
+                        <td th:text="${adminMember.rank}"></td>
+                        <td>
+                            <button class="btn btn-primary promote-btn" th:data-admin-id="${adminMember.adminId}"
+                                    th:data-rank="${adminMember.rank}"
+                                    th:if="${adminMember.rank != T(net.ink.admin.entity.AdminMember.RANK).SUPERVISOR}">승급</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger delete-btn" th:data-admin-id="${adminMember.adminId}"
+                                    th:if="${adminMember.rank != T(net.ink.admin.entity.AdminMember.RANK).SUPERVISOR}">삭제</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Add this at the end of your tables.html file -->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.promote-btn').on('click', function () {
+                const adminId = $(this).data('admin-id');
+                const adminRank = $(this).data('rank');
+                let msg = '이 보류 어드민을 매니저로 승급합니다.';
+                if (adminRank === 'MANAGER') {
+                    msg = '이 매니저를 슈퍼관리자로 승급합니다.\n현재 로그인된 계정은 매니저 등급으로 하향되며, 현재 세션에서 로그아웃 됩니다.\n진행할까요?';
+                }
+
+                if (confirm(msg)) {
+                    $.ajax({
+                        url: '/api/admin-member/' + adminId + '/promote',
+                        type: 'POST',
+                        success: function () {
+                            alert("승급되었습니다.")
+                            location.reload();
+                        },
+                        error: function (error) {
+                            alert("승급에 실패했습니다.")
+                            console.error('Error promoting member:', error);
+                        }
+                    });
+                }
+            });
+
+            $('.delete-btn').on('click', function () {
+                const adminId = $(this).data('admin-id');
+                if (confirm('이 회원을 삭제할까요?')) {
+                    $.ajax({
+                        url: '/api/admin-member/' + adminId,
+                        type: 'DELETE',
+                        success: function () {
+                            alert("삭제되었습니다.")
+                            location.reload();
+                        },
+                        error: function (error) {
+                            alert("삭제에 실패했습니다.")
+                            console.error('Error deleting member:', error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</div>

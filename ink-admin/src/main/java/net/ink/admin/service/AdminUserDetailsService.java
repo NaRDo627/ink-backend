@@ -28,6 +28,9 @@ public class AdminUserDetailsService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         // Add roles/authorities if necessary
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        if (adminMember.getRank() == AdminMember.RANK.SUPERVISOR) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_SUPERVISOR"));
+        }
 
         return new AdminUser(adminMember, authorities);
     }

@@ -19,6 +19,21 @@
     </li>
 
     <!-- Divider -->
+    <hr class="sidebar-divider" th:if="${adminMember.rank == T(net.ink.admin.entity.AdminMember.RANK).SUPERVISOR}">
+
+    <!-- Heading -->
+    <div class="sidebar-heading" th:if="${adminMember.rank == T(net.ink.admin.entity.AdminMember.RANK).SUPERVISOR}">
+        어드민
+    </div>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item" th:classappend="${inner == 'admin-management'}? 'active' : ''" th:if="${adminMember.rank == T(net.ink.admin.entity.AdminMember.RANK).SUPERVISOR}">
+        <a class="nav-link" th:href="@{/admin-management}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>어드민 관리</span></a>
+    </li>
+
+    <!-- Divider -->
     <hr class="sidebar-divider">
 
     <!-- Heading -->

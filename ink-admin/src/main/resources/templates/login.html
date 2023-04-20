@@ -5,69 +5,70 @@
 
 <body class="bg-gradient-primary">
 
-    <div class="container">
+<div class="container">
 
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
 
-            <div class="col-xl-10 col-lg-12 col-md-9">
+        <div class="col-xl-10 col-lg-12 col-md-9">
 
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                </div>
+                                <form class="user" id="loginForm" th:action="@{/login}" method="post">
+                                    <div th:if="${param.pending}" class="alert alert-warning" role="alert">
+                                        처리 중인 계정입니다. 관리자에게 문의하세요.
                                     </div>
-                                    <form class="user" id="loginForm" th:action="@{/login}" method="post">
-                                        <div th:if="${param.pending}">
-                                            처리 중인 계정입니다. 관리자에게 문의하세요.
-                                        </div>
-                                        <div th:if="${param.error}">
-                                            이메일과 패스워드가 맞지 않습니다.
-                                        </div>
-                                        <div th:if="${param.logout}">
-                                            로그아웃 되었습니다.
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                   id="username" name="username" autofocus="autofocus"
-                                                   aria-describedby="emailHelp" required="required" placeholder="Email" />
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                   id="password" name="password" required="required" placeholder="Password" />
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <input type="submit" class="btn btn-primary btn-user btn-block" value="Sign In" />
-                                    </form>
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" th:href="@{/register}">어드민 계정 신청</a>
+                                    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                                        이메일과 패스워드가 맞지 않습니다.
                                     </div>
+                                    <div th:if="${param.logout}" class="alert alert-info" role="alert">
+                                        로그아웃 되었습니다.
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-user"
+                                               id="username" name="username" autofocus="autofocus"
+                                               aria-describedby="emailHelp" required="required" placeholder="Email" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control form-control-user"
+                                               id="password" name="password" required="required" placeholder="Password" />
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck">
+                                            <label class="custom-control-label" for="customCheck">Remember
+                                                Me</label>
+                                        </div>
+                                    </div>
+                                    <input type="submit" class="btn btn-primary btn-user btn-block" value="Sign In" />
+                                </form>
+                                <hr>
+                                <div class="text-center">
+                                    <a class="small" th:href="@{/register}">어드민 계정 신청</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
         </div>
 
     </div>
 
-    <div th:replace="fragments/bottom :: content"></div>
-    <!-- Add a script to handle the login form submission -->
+</div>
+
+<div th:replace="fragments/bottom :: content"></div>
+<!-- Add a script to handle the login form submission -->
 </body>
+
 
 </html>

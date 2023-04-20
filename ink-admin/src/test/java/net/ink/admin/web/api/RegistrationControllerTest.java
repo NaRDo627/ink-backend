@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ink.admin.service.AdminMemberService;
 import net.ink.admin.web.AbstractControllerTest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -35,6 +36,7 @@ public class RegistrationControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @DisplayName("회원가입 성공")
     void register_success() throws Exception {
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -44,6 +46,7 @@ public class RegistrationControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @DisplayName("회원가입 실패 - 유효성 검사 실패")
     void register_validationFailure() throws Exception {
         RegistrationController.RegisterRequest invalidRequest = new RegistrationController.RegisterRequest();
         invalidRequest.setEmail("test");
@@ -57,6 +60,7 @@ public class RegistrationControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @DisplayName("회원가입 실패 - 이메일 유효성 검사 실패")
     void register_validationFailure_emailInvalidFormat() throws Exception {
         RegistrationController.RegisterRequest invalidRequest = new RegistrationController.RegisterRequest();
         invalidRequest.setEmail("testUser123");
@@ -70,6 +74,7 @@ public class RegistrationControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @DisplayName("회원가입 실패 - 닉네임 유효성 검사 실패 (닉네임 길이가 너무 김)")
     void register_validationFailure_nicknameTooLong() throws Exception {
         RegistrationController.RegisterRequest invalidRequest = new RegistrationController.RegisterRequest();
         invalidRequest.setEmail("testUser123@example.com");
@@ -83,6 +88,7 @@ public class RegistrationControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @DisplayName("회원가입 실패 - 비밀번호에 특수문자가 없음")
     void register_validationFailure_passwordWithoutSpecialCharacters() throws Exception {
         RegistrationController.RegisterRequest invalidRequest = new RegistrationController.RegisterRequest();
         invalidRequest.setEmail("testUser123@example.com");
@@ -96,6 +102,7 @@ public class RegistrationControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @DisplayName("회원가입 실패 - 비밀번호에 숫자가 없음")
     void register_validationFailure_passwordWithoutDigits() throws Exception {
         RegistrationController.RegisterRequest invalidRequest = new RegistrationController.RegisterRequest();
         invalidRequest.setEmail("testUser123@example.com");
