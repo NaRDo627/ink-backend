@@ -9,6 +9,7 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=ink_default"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
