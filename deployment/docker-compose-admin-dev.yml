@@ -1,0 +1,14 @@
+version: '3'
+services:
+  ink_backend_admin:
+    image: docker.io/$DOCKER_USERNAME/$IMAGE:$VERSION
+    container_name: ink_backend_admin
+    restart: always
+    ports:
+      - "80:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE="dev"
+      - CLOUD_AWS_CREDENTIALS_ACCESS_KEY=$CLOUD_AWS_CREDENTIALS_ACCESS_KEY
+      - CLOUD_AWS_CREDENTIALS_SECRET_KEY=$CLOUD_AWS_CREDENTIALS_SECRET_KEY
+      - AWS_ACCESS_KEY=$CLOUD_AWS_CREDENTIALS_ACCESS_KEY
+      - AWS_SECRET_KEY=$CLOUD_AWS_CREDENTIALS_SECRET_KEY

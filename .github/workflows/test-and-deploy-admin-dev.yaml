@@ -1,4 +1,4 @@
-name: Test and Deploy with Noti - Api - Dev
+name: Test and Deploy with Noti - Admin - Dev
 
 on:
   workflow_dispatch:
@@ -14,17 +14,17 @@ on:
       - main
     paths:
       - 'ink-core/**'
-      - 'ink-api/**'
-      - '.github/workflows/test-and-deploy-api-dev.yaml'
-      - 'deployment/docker-compose-api-dev.yml'
+      - 'ink-admin/**'
+      - '.github/workflows/test-and-deploy-admin-dev.yaml'
+      - 'deployment/docker-compose-admin-dev.yml'
 
 env:
-  JAR_NAME: ink-api-0.0.1-SNAPSHOT.jar
-  DEPLOYMENT_NAME: ink-api-deployment # Add your deployment name here.
-  IMAGE: ink-api
+  JAR_NAME: ink-admin-0.0.1-SNAPSHOT.jar
+  DEPLOYMENT_NAME: ink-admin-deployment # Add your deployment name here.
+  IMAGE: ink-admin
 
 jobs:
-  deployment-api:
+  deployment-admin:
     name: Gradle 테스트 후 배포
     runs-on: ubuntu-latest
     steps:
@@ -57,7 +57,7 @@ jobs:
         run: ./gradlew dbMigration update ${{ secrets.DB_MIGRATION_PARAMS_DEV }}
 
       - name: Gradle 테스트 및 실행파일 생성
-        run: ./gradlew :ink-api:build :ink-api:test :ink-api:bootJar -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Seoul --info
+        run: ./gradlew :ink-admin:build :ink-admin:test :ink-admin:bootJar -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Seoul --info
 
       - name: SHA 업데이트
         run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/_meta
@@ -88,7 +88,7 @@ jobs:
       - name: 컨테이너 이미지 빌드 및 이미지 푸쉬
         uses: docker/build-push-action@v2
         with:
-          context: ./ink-api/
+          context: ./ink-admin/
           push: true
           tags: docker.io/${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE }}:${{ steps.get-tag.outputs.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -103,12 +103,12 @@ jobs:
         uses: danielr1996/envsubst-action@1.0.0
         env:
           VERSION: ${{ steps.get-tag.outputs.tag }}
-          IMAGE: ink-api
+          IMAGE: ink-admin
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           CLOUD_AWS_CREDENTIALS_ACCESS_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_ACCESS_KEY }}
           CLOUD_AWS_CREDENTIALS_SECRET_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_SECRET_KEY }}
         with:
-          input: deployment/docker-compose-api-dev.yml
+          input: deployment/docker-compose-admin-dev.yml
           output: docker-compose.yml
 
       - name: SSH키 설정
@@ -127,7 +127,7 @@ jobs:
           scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P ${{ secrets.SSH_PORT }} $DOCKER_COMPOSE_FILE ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ vars.PATH_TO_REMOTE }}/docker-compose.yml
 
           # SSH to the remote server and deploy the Docker container using Docker Compose
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd ${{ vars.PATH_TO_REMOTE }} && docker-compose pull ink_backend_api && docker-compose down && docker-compose up -d"
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd ${{ vars.PATH_TO_REMOTE }} && docker-compose pull ink_backend_admin && docker-compose down && docker-compose up -d"
 
       - name: 실패시 디스코드에 알림
         uses: sarisia/actions-status-discord@v1
