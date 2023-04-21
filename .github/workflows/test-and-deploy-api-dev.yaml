@@ -50,7 +50,7 @@ jobs:
         uses: timheuer/base64-to-file@v1.1
         with:
           fileName: 'application-dev.yml'
-          fileDir: './ink-core/src/main/resources/'
+          fileDir: './ink-api/src/main/resources/'
           encodedString: ${{ secrets.APPLICATION_YML_DEV_BASE64 }}
 
       - name: liquibase 스키마 업데이트
