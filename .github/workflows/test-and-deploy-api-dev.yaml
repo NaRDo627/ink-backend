@@ -53,6 +53,9 @@ jobs:
           fileDir: './ink-api/src/main/resources/'
           encodedString: ${{ secrets.APPLICATION_YML_DEV_BASE64 }}
 
+      - name: debug yml
+        run: cat ./ink-api/src/main/resources/application-dev.yml
+
       - name: liquibase 스키마 업데이트
         run: ./gradlew dbMigration update ${{ secrets.DB_MIGRATION_PARAMS_DEV }}
 
