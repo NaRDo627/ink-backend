@@ -5,14 +5,12 @@ services:
       - ink_default
     image: traefik:v2.5
     command:
-      - "--configFile=/etc/traefik/traefik.yaml"
+      - "--configFile=/etc/traefik/traefik-config.yaml"
       - "--log.level=DEBUG"
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.network=ink_default"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
       - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
       - "--certificatesresolvers.myresolver.acme.email=naruhodo627@gmail.com"
@@ -24,8 +22,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "./letsencrypt:/letsencrypt"
-      - "./traefik.yaml:/etc/traefik/traefik.yaml"
-
+      - "./traefik-config.yaml:/etc/traefik/traefik-config.yaml"
 
 networks:
   ink_default:

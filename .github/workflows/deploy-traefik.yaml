@@ -13,7 +13,7 @@ on:
     branches:
       - main
     paths:
-      - '.github/workflows/deploy-traefik.yaml'
+      - '.github/workflows/deploy-traefik-config.yaml'
       - 'deployment/traefik.yml'
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
       - name: 서버에 배포
         env:
           DOCKER_COMPOSE_FILE: traefik.yml
-          CONFIG_FILE: traefik.yaml
+          CONFIG_FILE: traefik-config.yaml
           SERVICE_NAME: traefik
           PROJECT_NAME: traefik
         run: |
