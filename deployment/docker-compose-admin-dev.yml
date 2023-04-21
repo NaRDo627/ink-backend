@@ -1,6 +1,9 @@
 version: '3'
 services:
   ink_backend_admin:
+    networks:
+      - ink_default
+
     image: docker.io/$DOCKER_USERNAME/$IMAGE:$VERSION
     labels:
       - "traefik.enable=true"
@@ -16,3 +19,7 @@ services:
       - CLOUD_AWS_CREDENTIALS_SECRET_KEY=$CLOUD_AWS_CREDENTIALS_SECRET_KEY
       - AWS_ACCESS_KEY=$CLOUD_AWS_CREDENTIALS_ACCESS_KEY
       - AWS_SECRET_KEY=$CLOUD_AWS_CREDENTIALS_SECRET_KEY
+
+networks:
+  ink_default:
+    external: true
