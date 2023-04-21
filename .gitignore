@@ -55,4 +55,4 @@ application-oauth.properties
 /ink-admin/src/main/resources/application-dev.yml
 /ink-admin/src/main/resources/application-prod.yml
 
-
+.log
