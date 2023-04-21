@@ -2,10 +2,14 @@ version: '3'
 services:
   ink_backend_admin:
     image: docker.io/$DOCKER_USERNAME/$IMAGE:$VERSION
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.was2.rule=Host(`admin.hkpark.net`)"
+      - "traefik.http.routers.was2.entrypoints=web"
     container_name: ink_backend_admin
     restart: always
     ports:
-      - "80:8080"
+      - "8001:8080"
     environment:
       - SPRING_PROFILES_ACTIVE="dev"
       - CLOUD_AWS_CREDENTIALS_ACCESS_KEY=$CLOUD_AWS_CREDENTIALS_ACCESS_KEY

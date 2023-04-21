@@ -109,7 +109,7 @@ jobs:
           CLOUD_AWS_CREDENTIALS_SECRET_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_SECRET_KEY }}
         with:
           input: deployment/docker-compose-admin-dev.yml
-          output: docker-compose.yml
+          output: docker-compose-admin-dev.yml
 
       - name: SSH키 설정
         uses: webfactory/ssh-agent@v0.5.0
@@ -118,16 +118,16 @@ jobs:
 
       - name: 서버에 배포
         env:
-          DOCKER_COMPOSE_FILE: docker-compose.yml
-        run: |
-          # Make a directory
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "mkdir -p ${{ vars.PATH_TO_REMOTE }}"
-          
-          # Copy docker-compose.yml file to the remote server
-          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P ${{ secrets.SSH_PORT }} $DOCKER_COMPOSE_FILE ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ vars.PATH_TO_REMOTE }}/docker-compose.yml
-
-          # SSH to the remote server and deploy the Docker container using Docker Compose
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd ${{ vars.PATH_TO_REMOTE }} && docker-compose pull ink_backend_admin && docker-compose down && docker-compose up -d"
+          DOCKER_COMPOSE_FILE: docker-compose-admin-dev.yml
+          run: |
+            # Make a directory
+            ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "mkdir -p ${{ vars.PATH_TO_REMOTE }}"
+            
+            # Copy docker-compose.yml file to the remote server
+            scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P ${{ secrets.SSH_PORT }} $DOCKER_COMPOSE_FILE ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ vars.PATH_TO_REMOTE }}/$DOCKER_COMPOSE_FILE
+            
+            # SSH to the remote server and deploy the Docker container using Docker Compose
+            ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd ${{ vars.PATH_TO_REMOTE }} && docker-compose pull ink_backend_api && docker-compose -f $DOCKER_COMPOSE_FILE down && docker-compose up -f $DOCKER_COMPOSE_FILE -d"
 
       - name: 실패시 디스코드에 알림
         uses: sarisia/actions-status-discord@v1
