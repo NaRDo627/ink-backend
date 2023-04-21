@@ -8,7 +8,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.was2.rule=Host(`admin.hkpark.net`)"
-      - "traefik.http.routers.was2.entrypoints=web"
+      - "traefik.http.routers.was2.entrypoints=websecure"
+      - "traefik.http.routers.was2.tls.certresolver=myresolver"
     container_name: ink_backend_admin
     restart: always
     ports:

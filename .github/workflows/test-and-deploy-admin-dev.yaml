@@ -135,7 +135,7 @@ jobs:
           PROJECT_NAME: ink-backend-admin
         run: |
           # Make a directory
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "mkdir -p ${{ vars.PATH_TO_REMOTE }}"
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "mkdir -p ${{ vars.PATH_TO_REMOTE }} ${{ vars.PATH_TO_REMOTE }}/letsencrypt"
           
           # Copy docker-compose.yml file to the remote server
           scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P ${{ secrets.SSH_PORT }} $DOCKER_COMPOSE_FILE ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ vars.PATH_TO_REMOTE }}/$DOCKER_COMPOSE_FILE
