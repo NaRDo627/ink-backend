@@ -54,7 +54,7 @@ jobs:
           encodedString: ${{ secrets.APPLICATION_YML_DEV_BASE64 }}
 
       - name: yml 복사
-        uses: cp ./ink-core/src/main/resources/application-dev.yml ./ink-admin/src/main/resources/application-dev.yml
+        run: cp ./ink-core/src/main/resources/application-dev.yml ./ink-admin/src/main/resources/application-dev.yml
 
       - name: liquibase 스키마 업데이트
         run: ./gradlew dbMigration update ${{ secrets.DB_MIGRATION_PARAMS_DEV }}
