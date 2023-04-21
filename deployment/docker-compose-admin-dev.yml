@@ -7,7 +7,7 @@ services:
     image: docker.io/$DOCKER_USERNAME/$IMAGE:$VERSION
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.was2.rule=Host(`admin.hkpark.net`)"
+      - "traefik.http.routers.was2.rule=Host(`admindev.hkpark.net`)"
       - "traefik.http.routers.was2.entrypoints=websecure"
       - "traefik.http.routers.was2.tls.certresolver=myresolver"
     container_name: ink_backend_admin
