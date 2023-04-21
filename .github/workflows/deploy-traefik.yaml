@@ -28,7 +28,7 @@ jobs:
 
       - name: 서버에 배포
         env:
-          DOCKER_COMPOSE_FILE: deploy-traefik.yml
+          DOCKER_COMPOSE_FILE: traefik.yml
         run: |
           # Move docker-compose.yml file to the deployment directory
           mv deployment/$DOCKER_COMPOSE_FILE .
