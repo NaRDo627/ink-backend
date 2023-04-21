@@ -125,6 +125,11 @@
                     }
                 });
             });
+
+            // Initialize DataTables and set the order
+            $('#dataTable').DataTable({
+                "order": [0, "desc"]
+            });
         });
     </script>
 

@@ -36,10 +36,4 @@ public class MainViewController {
         model.addAttribute("adminMember", adminMember);
         return "base";
     }
-
-    @GetMapping("/reply-management")
-    public String getReplyManagement(Model model) {
-        model.addAttribute("inner", "reply-management");
-        return "base";
-    }
 }

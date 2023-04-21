@@ -2,5 +2,89 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">답변 관리</h1>
+    <p class="mb-4">등록된 답변 정보를 관리합니다.</p>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">답변 테이블</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>idx</th>
+                        <th>작성자</th>
+                        <th>질문</th>
+                        <th>내용</th>
+                        <th>이미지</th>
+                        <th>좋아요 수</th>
+                        <th>삭제</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>idx</th>
+                        <th>작성자</th>
+                        <th>질문</th>
+                        <th>내용</th>
+                        <th>이미지</th>
+                        <th>좋아요 수</th>
+                        <th>삭제</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr th:each="reply : ${replies}">
+                        <td th:text="${reply.replyId}"></td>
+                        <td th:text="${reply.author.nickname}"></td>
+                        <td th:text="${reply.question.content}"></td>
+                        <td th:text="${reply.content}"></td>
+                        <td th:text="${reply.image}"></td>
+                        <td th:text="${reply.replyLikes.size()}"></td>
+                        <td> <!-- Add the delete button to each row -->
+                            <button class="btn btn-danger delete-btn" th:data-reply-id="${reply.replyId}">삭제</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script>
+        $(document).ready(function () {
+            $('tbody tr').hover(
+                function () {
+                    $(this).addClass('hover-bg');
+                },
+                function () {
+                    $(this).removeClass('hover-bg');
+                }
+            );
+
+            $('.delete-btn').on('click', function () {
+                const replyId = $(this).data('reply-id');
+                if (confirm('이 답변을 삭제할까요?')) {
+                    $.ajax({
+                        url: '/api/reply/' + replyId,
+                        type: 'DELETE',
+                        success: function () {
+                            alert("삭제되었습니다.")
+                            location.reload();
+                        },
+                        error: function (error) {
+                            alert("삭제에 실패했습니다.")
+                            console.error('Error deleting reply:', error);
+                        }
+                    });
+                }
+            });
+
+            // Initialize DataTables and set the order
+            $('#dataTable').DataTable({
+                "order": [0, "desc"]
+            });
+        });
+    </script>
 
 </div>

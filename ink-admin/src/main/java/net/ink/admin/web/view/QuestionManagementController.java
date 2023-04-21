@@ -7,6 +7,7 @@ import net.ink.core.member.service.MemberService;
 import net.ink.core.question.repository.QuestionRepository;
 import net.ink.core.question.repository.WordHintRepository;
 import net.ink.core.question.service.QuestionService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ public class QuestionManagementController {
     @GetMapping("/question-management")
     public String getQuestionManagement(Model model) {
         model.addAttribute("inner", "question-management");
-        model.addAttribute("questions", questionRepository.findAll().stream()
+        model.addAttribute("questions", questionRepository.findAll(Sort.by(Sort.Direction.DESC, "questionId")).stream()
                 .map(questionMapper::toDto).collect(Collectors.toList()));
         return "base";
     }
