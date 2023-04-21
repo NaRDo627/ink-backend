@@ -40,14 +40,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login", "/register").permitAll()
                 .antMatchers("/css/**", "/js/**", "/images/**", "/vendor/**").permitAll() // Add this line
                 .anyRequest().authenticated()
-                .and()
-            .formLogin()
+            .and()
+                .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/main")
                 .successHandler(adminAuthenticationSuccessHandler)
                 .permitAll()
-                .and()
-            .logout()
+            .and()
+                .rememberMe()
+                .key("yourRememberMeKey") // You can generate a secure key for your application
+                .tokenValiditySeconds(60*60*24*7) // Optional: configure the duration of the remember-me token in seconds (e.g., 1 week)
+            .and()
+                .logout()
                 .permitAll();
     }
 

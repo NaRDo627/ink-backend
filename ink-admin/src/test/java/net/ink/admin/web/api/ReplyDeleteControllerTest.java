@@ -2,15 +2,9 @@ package net.ink.admin.web.api;
 
 import net.ink.admin.annotation.WithMockInkAdminUser;
 import net.ink.admin.web.AbstractControllerTest;
-import net.ink.core.reply.repository.ReplyRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.springframework.test.web.client.ExpectedCount.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

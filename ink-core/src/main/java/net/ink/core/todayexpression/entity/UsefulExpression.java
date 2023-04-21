@@ -43,7 +43,7 @@ public class UsefulExpression {
     private LocalDateTime modDate = LocalDateTime.now();
 
     @Builder.Default
-    @OneToMany(mappedBy = "usefulExpression", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usefulExpression", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MemberScrap> memberScraps = new HashSet<>();
 
     public boolean scrappedByRequester(Member member){

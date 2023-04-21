@@ -1,0 +1,183 @@
+<div class="container-fluid" th:fragment="content">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">유용한 표현 관리</h1>
+    <p class="mb-4">등록된 유용한 표현 정보를 관리합니다.</p>
+
+    <!-- Add the input form and submit button -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary">유용한 표현 등록하기</h6>
+        </div>
+        <div class="card-body">
+            <form id="usefulExprForm">
+                <div class="form-group">
+                    <label for="expression">표현</label>
+                    <input type="text" class="form-control" id="expression" placeholder="표현을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="meaning">뜻</label>
+                    <input type="text" class="form-control" id="meaning" placeholder="뜻을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="expressionExample">표현 예제</label>
+                    <input type="text" class="form-control" id="expressionExample" placeholder="표현 예제를 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="expressionExampleMeaning">표현 예제 해석</label>
+                    <input type="text" class="form-control" id="expressionExampleMeaning" placeholder="표현 예제 해석을 입력하세요">
+                </div>
+                <button type="submit" class="btn btn-primary">표현 등록</button>
+            </form>
+        </div>
+    </div>
+    <!-- End of input form and submit button -->
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">유용한 표현 테이블</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>idx</th>
+                        <th>표현</th>
+                        <th>의미</th>
+                        <th>예문</th>
+                        <th>예문 해석</th>
+                        <th>삭제</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>idx</th>
+                        <th>표현</th>
+                        <th>의미</th>
+                        <th>예문</th>
+                        <th>예문 해석</th>
+                        <th>삭제</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr th:each="usefulExpr : ${usefulExpressions}">
+                        <td th:text="${usefulExpr.expId}"></td>
+                        <td th:text="${usefulExpr.expression}"></td>
+                        <td th:text="${usefulExpr.meaning}"></td>
+                        <td th:text="${usefulExpr.expressionExample}"></td>
+                        <td th:text="${usefulExpr.expressionExampleMeaning}"></td>
+                        <td>
+                            <button class="btn btn-danger delete-btn" th:data-useful-expr-id="${usefulExpr.expId}">삭제</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script>
+        $(document).ready(function () {
+            $('tbody tr').hover(
+                function () {
+                    $(this).addClass('hover-bg');
+                },
+                function () {
+                    $(this).removeClass('hover-bg');
+                }
+            );
+
+            $('tbody tr').on('click', function (event) {
+                if (!$(event.target).hasClass('delete-btn')) {
+                    window.location.href = $(this).data('href');
+                }
+            });
+
+            $('.delete-btn').on('click', function (event) {
+                event.stopPropagation();
+                var usefulExprId = $(this).data('useful-expr-id');
+                if(!confirm('정말로 이 표현을 삭제하시겠습니까?')) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '/api/useful-expression/' + usefulExprId,
+                    type: 'DELETE',
+                    success: function (result) {
+                        alert('삭제되었습니다.');
+                        window.location.reload();
+                    },
+                    error: function (result) {
+                        alert('삭제에 실패했습니다. 유용한 표현은 2개 이하로 삭제될 수 없습니다.');
+                        console.log(result);
+                    }
+                });
+            });
+
+            $("#dataTable").DataTable({
+                "order": [ 0, "desc" ]
+            });
+
+            $('#usefulExprForm').on('submit', function (event) {
+                event.preventDefault();
+
+                // Get the form data
+                const expression = $('#expression').val();
+                const meaning = $('#meaning').val();
+                const expressionExample = $('#expressionExample').val();
+                const expressionExampleMeaning = $('#expressionExampleMeaning').val();
+                if (expression.length < 1) {
+                    alert("표현을 입력하세요.")
+                    return;
+                }
+
+                if (meaning.length < 1) {
+                    alert("뜻을 입력하세요.")
+                    return;
+                }
+
+                if (expressionExample.length < 1) {
+                    alert("표현 예제를 입력하세요.")
+                    return;
+                }
+
+                if (expressionExampleMeaning.length < 1) {
+                    alert("표현 예제 뜻을 입력하세요.")
+                    return;
+                }
+
+                if (!/^[A-Za-z0-9\s\\!@#$%^&*(),.?":{}|<>]+$/.test(expression)) {
+                    alert("표현에는 영문 또는 영문과 숫자의 조합만 입력하세요.");
+                    return;
+                }
+
+                if (!/^[A-Za-z0-9\s\\!@#$%^&*(),.?":{}|<>]+$/.test(expressionExample)) {
+                    alert("표현 예제에는 영문 또는 영문과 숫자의 조합만 입력하세요.");
+                    return;
+                }
+
+                // Send a POST request to /api/question
+                $.ajax({
+                    url: '/api/useful-expression',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        expression: expression,
+                        meaning: meaning,
+                        expressionExample: expressionExample,
+                        expressionExampleMeaning: expressionExampleMeaning
+                    }),
+                    success: function () {
+                        alert('유용한 표현이 등록되었습니다.');
+                        location.reload();
+                    },
+                    error: function (error) {
+                        alert('유용한 표현 등록에 실패했습니다: ' + error.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+
+</div>

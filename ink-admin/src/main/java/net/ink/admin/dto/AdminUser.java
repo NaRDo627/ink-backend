@@ -17,7 +17,7 @@ public class AdminUser extends User {
     }
 
     public AdminUser(AdminMember adminMember, Collection<? extends GrantedAuthority> authorities) {
-        super(adminMember.getNickname(), adminMember.getPassword(), authorities);
+        super(adminMember.getEmail(), adminMember.getPassword(), authorities);
         this.adminMember = adminMember;
     }
 

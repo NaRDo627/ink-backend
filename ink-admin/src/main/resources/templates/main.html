@@ -63,4 +63,22 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">오늘의 유용한 표현</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- add the horizontal line here -->
+                        <div class="col-md-6 border-right pr-3" th:each="todayUsefulExpression : ${mainView.todayUsefulExpressions}">
+                            <h3 th:text="${todayUsefulExpression.expression}"></h3>
+                            <p class="mb-0" th:text="${todayUsefulExpression.meaning}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
