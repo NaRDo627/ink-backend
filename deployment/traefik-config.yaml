@@ -1,10 +1,46 @@
+log:
+  level: DEBUG
+
+api:
+  insecure: true
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: ink_default
+
 entryPoints:
   web:
     address: ":80"
-    http:
-      redirections:
-        entryPoint:
-          to: websecure
-          scheme: https
   websecure:
     address: ":443"
+
+http:
+  middlewares:
+    redirectScheme:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+  routers:
+    httpToHttps:
+      entryPoints:
+        - web
+      middlewares:
+        - redirectScheme
+      rule: "HostRegexp(`{any:.+}`)"
+      service: "noop"
+
+  services:
+    noop:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.0.1"
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: "naruhodo627@gmail.com"
+      storage: "/letsencrypt/acme.json"
+      httpChallenge:
+        entryPoint: web
