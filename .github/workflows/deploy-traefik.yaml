@@ -42,17 +42,22 @@ jobs:
       - name: 서버에 배포
         env:
           DOCKER_COMPOSE_FILE: traefik.yml
+          CONFIG_FILE: traefik.yaml
           SERVICE_NAME: traefik
           PROJECT_NAME: traefik
         run: |
-          # Move docker-compose.yml file to the deployment directory
+          # Move ymls file to the deployment directory
           mv deployment/$DOCKER_COMPOSE_FILE .
+          mv deployment/$CONFIG_FILE .
           
           # Make a directory
           ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "mkdir -p ${{ vars.PATH_TO_REMOTE }}"
           
           # Copy docker-compose.yml file to the remote server
           scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P ${{ secrets.SSH_PORT }} $DOCKER_COMPOSE_FILE ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ vars.PATH_TO_REMOTE }}/$DOCKER_COMPOSE_FILE
+          
+          # Copy traefik.yaml file to the remote server
+          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P ${{ secrets.SSH_PORT }} $CONFIG_FILE ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ vars.PATH_TO_REMOTE }}/$CONFIG_FILE
 
           # SSH to the remote server and deploy the Docker container using Docker Compose
           ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd ${{ vars.PATH_TO_REMOTE }} && docker-compose -f $DOCKER_COMPOSE_FILE --project-name $PROJECT_NAME up -d --force-recreate"

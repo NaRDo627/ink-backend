@@ -5,6 +5,7 @@ services:
       - ink_default
     image: traefik:v2.5
     command:
+      - "--configFile=/etc/traefik/traefik.yaml"
       - "--log.level=DEBUG"
       - "--api.insecure=true"
       - "--providers.docker=true"
@@ -23,28 +24,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "./letsencrypt:/letsencrypt"
-
-http:
-  middlewares:
-    redirectScheme:
-      redirectScheme:
-        scheme: https
-        permanent: true
-
-  routers:
-    httpToHttps:
-      entryPoints:
-        - web
-      middlewares:
-        - redirectScheme
-      rule: "HostRegexp(`{any:.+}`)"
-      service: "noop"
-
-  services:
-    noop:
-      loadBalancer:
-        servers:
-          - url: "http://192.168.0.1"
+      - "./traefik.yaml:/etc/traefik/traefik.yaml"
 
 
 networks:
