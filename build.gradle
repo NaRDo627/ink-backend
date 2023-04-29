@@ -58,16 +58,32 @@ subprojects {
 		implementation 'ca.pjer:logback-awslogs-appender:1.4.0'
 	}
 
-	test {
-		useJUnitPlatform()
-		finalizedBy 'jacocoTestReport'
-	}
-
 	jacocoTestReport {
 		reports {
 			html.destination file("${buildDir}/jacocoHtml")
 			csv.enabled false
-			xml.enabled false
+			xml.enabled true
+		}
+
+		afterEvaluate {
+			classDirectories.setFrom(files(classDirectories.files.collect {
+				fileTree(dir: it, exclude: [
+						"**/*Ink*Application*",
+						"**/*BatchStarter*",
+						"**/listener/*",
+						"**/trigger/*",
+						"**/job/*",
+						"**/scheduler/*",
+						"**/config/*",
+						"**/exception/*",
+						"**/dto/*",
+						"**/vo/*",
+						"**/advice/*",
+						"**/util/*",
+						"**/core/core/**/*",
+						"**/api/web/*",
+				])
+			}))
 		}
 
 		finalizedBy 'jacocoTestCoverageVerification'
@@ -85,7 +101,22 @@ subprojects {
 					minimum = 0.00
 				}
 
-				excludes = []
+				excludes = [
+						"**/*Ink*Application*",
+						"**/*BatchStarter*",
+						"**/listener/*",
+						"**/trigger/*",
+						"**/job/*",
+						"**/scheduler/*",
+						"**/config/*",
+						"**/exception/*",
+						"**/dto/*",
+						"**/vo/*",
+						"**/advice/*",
+						"**/util/*",
+						"**/core/core/**/*",
+						"**/api/core/web/*",
+				]
 			}
 
 		}
