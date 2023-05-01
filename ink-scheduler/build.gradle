@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group 'net.ink.scheduler'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':ink-core')
+    testCompile project(':ink-core').sourceSets.test.output
+
+    implementation 'org.springframework.boot:spring-boot-starter-quartz'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'com.mchange:c3p0'
+    testImplementation 'org.springframework.batch:spring-batch-test'
+}
+
+test {
+    useJUnitPlatform()
+}
