@@ -1,8 +1,5 @@
 # Android-Team-1-Backend
 
-
-### 정기배포 업데이트 내역[🔗](https://github.com/YAPP-18th/Android-Team-1-Backend/wiki/%EC%84%9C%EB%B2%84-%EC%A0%95%EA%B8%B0-%EB%B0%B0%ED%8F%AC-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%82%B4%EC%97%AD)
-
 <br>
 
 ## 1. 기술 스택
