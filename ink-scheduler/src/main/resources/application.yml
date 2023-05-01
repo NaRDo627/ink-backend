@@ -2,12 +2,10 @@ spring:
     profiles:
       active: default
 
-    devtools:
-      restart:
-        enabled: true
-
-    thymeleaf:
-      cache: false
+    quartz:
+      job-store-type: jdbc
+      jdbc:
+        initialize-schema: always
 
   # JPA
     jpa:

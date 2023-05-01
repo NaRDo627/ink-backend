@@ -1,4 +1,4 @@
-package net.ink.scheduler.push.service;
+package net.ink.scheduler.batch.push.service;
 
 import lombok.RequiredArgsConstructor;
 import net.ink.core.member.entity.FcmToken;
